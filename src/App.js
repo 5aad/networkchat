@@ -3,6 +3,10 @@ import SplashScreen from './screens/SplashScreen';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import NumberScreen from './screens/NumberScreen';
+import WelcomeScreen from './screens/WelcomeScreen';
+import ContactUsScreen from './screens/ContactUsScreen';
+import VerifiyScreen from './screens/VerifiyScreen';
+import ContactCardScreen from './screens/ContactCardScreen';
 const Stack = createStackNavigator();
 const App = () => {
   return (
@@ -13,10 +17,30 @@ const App = () => {
           name="Splash"
           component={SplashScreen}
         />
-                <Stack.Screen
+        <Stack.Screen
           options={{headerShown: false}}
           name="number"
           component={NumberScreen}
+        />
+        <Stack.Screen
+          options={{headerShown: false}}
+          name="contact"
+          component={ContactUsScreen}
+        />
+        <Stack.Screen
+          options={{headerShown: false}}
+          name="welcome"
+          component={WelcomeScreen}
+        />
+         <Stack.Screen
+          options={{headerShown: false}}
+          name="verify"
+          component={VerifiyScreen}
+        />
+                 <Stack.Screen
+          options={{headerShown: false}}
+          name="ccard"
+          component={ContactCardScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>
