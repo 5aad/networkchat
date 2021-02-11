@@ -4,13 +4,14 @@ import {
   StyleSheet,
   View,
   TextInput,
-  Image,
+  StatusBar,
   Text,
 } from 'react-native';
 import {Title, Appbar, Button, Paragraph} from 'react-native-paper';
 const ContactCardScreen = ({navigation}) => {
   return (
     <SafeAreaView style={styles.container}>
+              <StatusBar barStyle="light-content" backgroundColor="#161616" />
       <Appbar.Header style={styles.bgHeader}>
         <Appbar.BackAction onPress={() => navigation.goBack()} />
         <Appbar.Content
@@ -77,7 +78,7 @@ const ContactCardScreen = ({navigation}) => {
 
       <View style={styles.btnOnly}>
         <Button
-          onPress={() => navigation.navigate('contact')}
+          onPress={() => navigation.navigate('acard')}
           style={styles.btn}
           mode="contained"
           labelStyle={styles.btnTxt}

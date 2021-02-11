@@ -1,20 +1,47 @@
 import React from 'react';
-import {SafeAreaView, StyleSheet, View, TextInput, Image} from 'react-native';
+import {SafeAreaView, StyleSheet, View, StatusBar, Image} from 'react-native';
 import {Title, Appbar, Button, Paragraph} from 'react-native-paper';
+import CodePin from 'react-native-pin-code';
 const VerifiyScreen = ({navigation}) => {
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar barStyle="light-content" backgroundColor="#161616" />
       <Appbar.Header style={styles.bgHeader}>
         <Appbar.BackAction onPress={() => navigation.goBack()} />
       </Appbar.Header>
       <View style={styles.innerContainer}>
         <Title style={styles.txtTitle}>Verification</Title>
         <Paragraph style={styles.txtPara}>
-        Enter the 4-digit code sent to your phone.
+          Enter the 4-digit code sent to your phone.
         </Paragraph>
 
         <View style={styles.numbContainer}>
-
+          <CodePin
+            text=""
+            ref={(ref) => (this.ref = ref)}
+            keyboardType="numeric"
+            obfuscation={false}
+            autoFocusFirst
+            checkPinCode={(code, callback) => callback(code === '12345')}
+            number={5}
+            containerStyle={{height: 80, backgroundColor:'#161616'}}
+            textStyle={{marginTop: 0, backgroundColor:'#161616'}}
+            containerPinStyle={{
+              height: 60,
+              marginTop: 0,
+              backgroundColor:'#161616'
+            }}
+            pinStyle={{
+              marginLeft: 0,
+              fontSize: 30,
+              backgroundColor: '#161616',
+              shadowOpacity: 0,
+              borderBottomWidth: 1,
+              borderColor:'#F8F8FF',
+              color: '#F8F8FF',
+            }}
+            success={() => console.log('hurray!')}
+          />
         </View>
 
         <View style={styles.btnOnly}>

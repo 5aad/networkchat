@@ -1,10 +1,18 @@
-import React from 'react';
-import {SafeAreaView, StyleSheet, View, TextInput, Image} from 'react-native';
+import React, {Fragment} from 'react';
+import {
+  SafeAreaView,
+  StyleSheet,
+  View,
+  TextInput,
+  Image,
+  StatusBar,
+} from 'react-native';
 import {Title, Appbar, Button, Paragraph} from 'react-native-paper';
 import images from '../api/images';
 const NumberScreen = ({navigation}) => {
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar barStyle="light-content" backgroundColor="#161616" />
       <Appbar.Header style={styles.bgHeader}>
         <Appbar.BackAction onPress={() => navigation.goBack()} />
       </Appbar.Header>
@@ -29,14 +37,14 @@ const NumberScreen = ({navigation}) => {
         </View>
 
         <View style={styles.btnOnly}>
-        <Button
-          onPress={() => navigation.navigate('contact')}
-          style={styles.btn}
-          mode="contained"
-          labelStyle={styles.btnTxt}
-          contentStyle={styles.innerBtn}>
-          Continue
-        </Button>
+          <Button
+            onPress={() => navigation.navigate('contact')}
+            style={styles.btn}
+            mode="contained"
+            labelStyle={styles.btnTxt}
+            contentStyle={styles.innerBtn}>
+            Continue
+          </Button>
         </View>
       </View>
     </SafeAreaView>
@@ -95,23 +103,23 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 12,
     borderColor: '#F8F8FF',
-    flexGrow:2
+    flexGrow: 2,
   },
-  flagContainer:{
+  flagContainer: {
     borderWidth: 1,
     borderRadius: 12,
     borderColor: '#F8F8FF',
-    height:58,
-    width:80,
-    marginRight:10
+    height: 58,
+    width: 80,
+    marginRight: 10,
   },
-  numbContainer:{
-    flexDirection:'row',
-    marginTop:45
+  numbContainer: {
+    flexDirection: 'row',
+    marginTop: 45,
   },
-  btnOnly:{
-  justifyContent:'flex-end',
-  height:'55%'
-  }
+  btnOnly: {
+    justifyContent: 'flex-end',
+    height: '55%',
+  },
 });
 export default NumberScreen;

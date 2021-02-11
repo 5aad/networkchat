@@ -1,10 +1,11 @@
 import React from 'react';
-import {SafeAreaView, StyleSheet, View} from 'react-native';
+import {SafeAreaView, StyleSheet, StatusBar} from 'react-native';
 import {Appbar, Button} from 'react-native-paper';
 import Sliders from '../components/Sliders';
 const WelcomeScreen = ({navigation}) => {
   return (
     <SafeAreaView style={styles.container}>
+            <StatusBar barStyle="light-content" backgroundColor="#161616" />
       <Appbar.Header style={styles.bgHeader}>
         <Appbar.BackAction onPress={() => navigation.goBack()} />
       </Appbar.Header>

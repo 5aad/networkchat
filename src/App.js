@@ -1,5 +1,5 @@
 import React from 'react';
-import SplashScreen from './screens/SplashScreen';
+import SplashScreen from './screens/NetworkData';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import NumberScreen from './screens/NumberScreen';
@@ -7,6 +7,8 @@ import WelcomeScreen from './screens/WelcomeScreen';
 import ContactUsScreen from './screens/ContactUsScreen';
 import VerifiyScreen from './screens/VerifiyScreen';
 import ContactCardScreen from './screens/ContactCardScreen';
+import AddContact from './screens/AddContact';
+import ContactProfile from './screens/ContactProfile';
 const Stack = createStackNavigator();
 const App = () => {
   return (
@@ -41,6 +43,16 @@ const App = () => {
           options={{headerShown: false}}
           name="ccard"
           component={ContactCardScreen}
+        />
+         <Stack.Screen
+          options={{headerShown: false}}
+          name="acard"
+          component={AddContact}
+        />
+                 <Stack.Screen
+          options={{headerShown: false}}
+          name="contactProfile"
+          component={ContactProfile}
         />
       </Stack.Navigator>
     </NavigationContainer>

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {SafeAreaView, View, Text, Image, StyleSheet} from 'react-native';
+import {SafeAreaView, View, Text, Image, StyleSheet, StatusBar} from 'react-native';
 import {Paragraph, Appbar} from 'react-native-paper';
 import images from '../api/images';
 
@@ -23,6 +23,7 @@ const SplashScreen = ({navigation}) => {
 
   return (
     <SafeAreaView style={styles.container}>
+              <StatusBar barStyle="light-content" backgroundColor="#161616" />
       <Appbar.Header style={styles.bgHeader}>
         <Appbar.BackAction onPress={() => navigation.goBack()} />
       </Appbar.Header>
