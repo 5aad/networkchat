@@ -57,16 +57,18 @@ const ContactProfile = ({navigation}) => {
 
       <View style={styles.btnOnly}>
         <Button
-          onPress={() => navigation.navigate('contact')}
+          onPress={() => navigation.navigate('networkData')}
           style={styles.btn}
+          icon="block-helper"
           mode="contained"
           labelStyle={styles.btnTxt}
           contentStyle={styles.innerBtn}>
           Block This User
         </Button>
         <Button
-          onPress={() => navigation.navigate('contact')}
+          onPress={() => navigation.navigate('networkData')}
           style={styles.btn}
+          icon="delete-forever-outline"
           mode="contained"
           labelStyle={styles.btnTxt}
           contentStyle={styles.innerBtn}>

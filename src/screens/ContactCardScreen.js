@@ -6,12 +6,13 @@ import {
   TextInput,
   StatusBar,
   Text,
+  ScrollView,
 } from 'react-native';
 import {Title, Appbar, Button, Paragraph} from 'react-native-paper';
 const ContactCardScreen = ({navigation}) => {
   return (
     <SafeAreaView style={styles.container}>
-              <StatusBar barStyle="light-content" backgroundColor="#161616" />
+      <StatusBar barStyle="light-content" backgroundColor="#161616" />
       <Appbar.Header style={styles.bgHeader}>
         <Appbar.BackAction onPress={() => navigation.goBack()} />
         <Appbar.Content
@@ -19,63 +20,63 @@ const ContactCardScreen = ({navigation}) => {
           title="Contact Card"
         />
       </Appbar.Header>
-
-      <View style={styles.innerContainer}>
-        <View style={{marginTop: 10}}>
-          <Text style={styles.lbl}>First Name</Text>
-          <TextInput
-            placeholderTextColor="#161616"
-            selectionColor="#161616"
-            style={styles.inputStyle}
-          />
-        </View>
-
-        <View style={{marginTop: 15}}>
-          <Text style={styles.lbl}>Last Name</Text>
-          <TextInput
-            placeholderTextColor="#161616"
-            selectionColor="#161616"
-            style={styles.inputStyle}
-          />
-        </View>
-
-        <View style={{marginTop: 15}}>
-          <Text style={styles.lbl}>Email</Text>
-          <TextInput
-            placeholderTextColor="#161616"
-            selectionColor="#161616"
-            style={styles.inputStyle}
-          />
-        </View>
-
-        <View style={{marginTop: 15}}>
-          <Text style={styles.lbl}>Date of Birth</Text>
-          <View style={{flexDirection: 'row'}}>
-            <TextInput
-              placeholderTextColor="#161616"
-              selectionColor="#161616"
-              style={styles.inputStyles}
-              placeholder="D-"
-            />
+      <ScrollView>
+        <View style={styles.innerContainer}>
+          <View style={{marginTop: 10}}>
+            <Text style={styles.lbl}>First Name</Text>
             <TextInput
               placeholderTextColor="#161616"
               selectionColor="#161616"
               style={styles.inputStyle}
-              placeholder="M-"
+            />
+          </View>
+
+          <View style={{marginTop: 15}}>
+            <Text style={styles.lbl}>Last Name</Text>
+            <TextInput
+              placeholderTextColor="#161616"
+              selectionColor="#161616"
+              style={styles.inputStyle}
+            />
+          </View>
+
+          <View style={{marginTop: 15}}>
+            <Text style={styles.lbl}>Email</Text>
+            <TextInput
+              placeholderTextColor="#161616"
+              selectionColor="#161616"
+              style={styles.inputStyle}
+            />
+          </View>
+
+          <View style={{marginTop: 15}}>
+            <Text style={styles.lbl}>Date of Birth</Text>
+            <View style={{flexDirection: 'row'}}>
+              <TextInput
+                placeholderTextColor="#161616"
+                selectionColor="#161616"
+                style={styles.inputStyles}
+                placeholder="D-"
+              />
+              <TextInput
+                placeholderTextColor="#161616"
+                selectionColor="#161616"
+                style={styles.inputStyle}
+                placeholder="M-"
+              />
+            </View>
+          </View>
+
+          <View style={{marginTop: 15}}>
+            <Text style={styles.lbl}>Location</Text>
+            <TextInput
+              placeholderTextColor="#161616"
+              selectionColor="#161616"
+              style={styles.inputStyle}
             />
           </View>
         </View>
-
-        <View style={{marginTop: 15}}>
-          <Text style={styles.lbl}>Location</Text>
-          <TextInput
-            placeholderTextColor="#161616"
-            selectionColor="#161616"
-            style={styles.inputStyle}
-          />
-        </View>
-      </View>
-
+      </ScrollView>
       <View style={styles.btnOnly}>
         <Button
           onPress={() => navigation.navigate('acard')}
@@ -149,9 +150,10 @@ const styles = StyleSheet.create({
     marginTop: 45,
   },
   btnOnly: {
-    justifyContent: 'flex-end',
-    height: '18%',
+    justifyContent: 'flex-start',
+    height: '10%',
     paddingHorizontal: 30,
+    marginVertical:20
   },
   lbl: {
     fontSize: 16,
