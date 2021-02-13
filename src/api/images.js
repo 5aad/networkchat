@@ -23,5 +23,8 @@ const images = {
   camera: require(`${ICON_PATH}camera.png`),
   mic: require(`${ICON_PATH}mic.png`),
   camerabg: require(`${ICON_PATH}camerabg.png`),
+  messagebg: require(`${ICON_PATH}messagebg.png`),
+  callbg: require(`${ICON_PATH}callbg.png`),
+  video: require(`${ICON_PATH}video.png`),
 };
 export default images;

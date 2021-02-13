@@ -22,6 +22,14 @@ const ContactProfile = ({navigation}) => {
         <View style={{justifyContent: 'center', alignItems: 'center'}}>
           <Image style={styles.imgAvatar} source={images.avatar1} />
           <Title style={styles.txtName}>Jasica Loren</Title>
+          <View style={{flexDirection: 'row', marginTop: 10}}>
+            <Image style={{width: 44, height: 44}} source={images.video} />
+            <Image
+              style={{width: 44, height: 44, marginHorizontal: 10}}
+              source={images.callbg}
+            />
+            <Image style={{width: 44, height: 44}} source={images.messagebg} />
+          </View>
         </View>
         <View>
           <View
