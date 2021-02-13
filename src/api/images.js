@@ -18,6 +18,10 @@ const images = {
   horoscope: require(`${ICON_PATH}horoscope.png`),
   paris: require(`${ICON_PATH}paris.png`),
   newyork: require(`${ICON_PATH}newyork.png`),
-  messageIcon: require(`${ICON_PATH}message.png`)
+  messageIcon: require(`${ICON_PATH}message.png`),
+  clip: require(`${ICON_PATH}clip.png`),
+  camera: require(`${ICON_PATH}camera.png`),
+  mic: require(`${ICON_PATH}mic.png`),
+  camerabg: require(`${ICON_PATH}camerabg.png`),
 };
 export default images;

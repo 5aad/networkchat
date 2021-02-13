@@ -1,5 +1,5 @@
 import React from 'react';
-import SplashScreen from './screens/AccountScreen';
+import SplashScreen from './screens/NetworkProfile';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import NumberScreen from './screens/NumberScreen';
