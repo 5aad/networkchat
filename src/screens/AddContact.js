@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -8,7 +8,21 @@ import {
   Text,
 } from 'react-native';
 import {Title, Appbar, Button, Paragraph} from 'react-native-paper';
+import ShowContact from '../components/ShowContact';
 const AddContact = ({navigation}) => {
+  const [key, setKey] = useState('add');
+  const [addStyle, setAddStyle] = useState('');
+  useEffect(() => {
+    if (key === 'add') {
+      setAddStyle('styles.tabBtnLbl');
+    } else {
+      setAddStyle('styles.tabBtnBlank');
+    }
+
+    if (key === 'show') {
+    } else {
+    }
+  }, [key]);
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#161616" />
@@ -21,34 +35,49 @@ const AddContact = ({navigation}) => {
       </Appbar.Header>
 
       <View style={styles.innerContainer}>
-        <View style={{marginTop: 10}}>
-          <Text style={styles.lbl}>First Name</Text>
-          <TextInput
-            placeholderTextColor="#161616"
-            selectionColor="#161616"
-            style={styles.inputStyle}
-          />
+        <View style={styles.tabBtn}>
+          <Title onPress={() => setKey('add')} style={addStyle}>
+            Add Contact
+          </Title>
+          <Title onPress={() => setKey('show')} style={styles.tabBtnBlank}>
+            Show Contact
+          </Title>
         </View>
 
-        <View style={{marginTop: 15}}>
-          <Text style={styles.lbl}>Last Name</Text>
-          <TextInput
-            placeholderTextColor="#161616"
-            selectionColor="#161616"
-            style={styles.inputStyle}
-          />
-        </View>
-      </View>
+        {key === 'add' ? (
+          <View>
+            <View style={{marginTop: 10}}>
+              <Text style={styles.lbl}>First Name</Text>
+              <TextInput
+                placeholderTextColor="#161616"
+                selectionColor="#161616"
+                style={styles.inputStyle}
+              />
+            </View>
 
-      <View style={styles.btnOnly}>
-        <Button
-          onPress={() => navigation.navigate('contactProfile')}
-          style={styles.btn}
-          mode="contained"
-          labelStyle={styles.btnTxt}
-          contentStyle={styles.innerBtn}>
-          Continue
-        </Button>
+            <View style={{marginTop: 15}}>
+              <Text style={styles.lbl}>Last Name</Text>
+              <TextInput
+                placeholderTextColor="#161616"
+                selectionColor="#161616"
+                style={styles.inputStyle}
+              />
+            </View>
+
+            <View style={styles.btnOnly}>
+              <Button
+                onPress={() => navigation.navigate('contactProfile')}
+                style={styles.btn}
+                mode="contained"
+                labelStyle={styles.btnTxt}
+                contentStyle={styles.innerBtn}>
+                Submit
+              </Button>
+            </View>
+          </View>
+        ) : (
+          <ShowContact />
+        )}
       </View>
     </SafeAreaView>
   );
@@ -60,6 +89,7 @@ const styles = StyleSheet.create({
   },
   innerContainer: {
     paddingHorizontal: 30,
+    flex: 1,
   },
   bgHeader: {
     backgroundColor: '#161616',
@@ -113,8 +143,7 @@ const styles = StyleSheet.create({
   },
   btnOnly: {
     justifyContent: 'flex-end',
-    flex: 0.9,
-    paddingHorizontal: 30,
+    height: '55%',
   },
   lbl: {
     fontSize: 16,
@@ -122,6 +151,34 @@ const styles = StyleSheet.create({
     color: '#F8F8FF',
     marginBottom: 10,
     marginLeft: 5,
+  },
+  tabBtn: {
+    backgroundColor: '#F8F8FF',
+    borderRadius: 12,
+    height: 59,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 5,
+    alignItems: 'center',
+    marginVertical: 20,
+  },
+  tabBtnLbl: {
+    fontSize: 20,
+    fontWeight: '600',
+    backgroundColor: '#161616',
+    color: '#F8F8FF',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 18,
+  },
+  tabBtnBlank: {
+    fontSize: 20,
+    fontWeight: '600',
+    backgroundColor: '#F8F8FF',
+    color: '#161616',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 18,
   },
 });
 export default AddContact;

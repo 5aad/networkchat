@@ -8,7 +8,7 @@ import {
   Text,
   ScrollView,
 } from 'react-native';
-import {Title, Appbar, Button, Paragraph} from 'react-native-paper';
+import {Appbar, Button} from 'react-native-paper';
 const ContactCardScreen = ({navigation}) => {
   return (
     <SafeAreaView style={styles.container}>

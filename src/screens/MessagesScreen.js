@@ -1,0 +1,111 @@
+import React from 'react';
+import {SafeAreaView, StyleSheet, StatusBar, View, Image} from 'react-native';
+import {Appbar} from 'react-native-paper';
+import images from '../api/images';
+import MessageList from '../components/MessageList';
+const Data = [
+  {
+    id: '1',
+    avatar: images.avatar1,
+    name: 'Stive Smith',
+    message: 'Whats app..?',
+    date: 'Jan 21',
+    receipt: 'true',
+  },
+  {
+    id: '2',
+    avatar: images.avatar2,
+    name: 'Stive Smith',
+    message: 'Whats app..?',
+    date: 'Jan 21',
+    receipt: 'true',
+  },
+  {
+    id: '3',
+    avatar: images.avatar3,
+    name: 'Stive Smith',
+    message: 'Whats app..?',
+    date: 'Jan 21',
+    receipt: 'false',
+  },
+  {
+    id: '4',
+    avatar: images.avatar4,
+    name: 'Stive Smith',
+    message: 'Whats app..?',
+    date: 'Jan 21',
+    receipt: 'false',
+  },
+  {
+    id: '5',
+    avatar: images.avatar5,
+    name: 'Stive Smith',
+    message: 'Whats app..?',
+    date: 'Jan 21',
+    receipt: 'true',
+  },
+  {
+    id: '6',
+    avatar: images.avatar2,
+    name: 'Stive Smith',
+    message: 'Whats app..?',
+    date: 'Jan 21',
+    receipt: 'false',
+  },
+  {
+    id: '7',
+    avatar: images.avatar3,
+    name: 'Stive Smith',
+    message: 'Whats app..?',
+    date: 'Jan 21',
+    receipt: 'true',
+  },
+];
+const MessagesScreen = ({navigation}) => {
+  return (
+    <SafeAreaView style={styles.container}>
+      <StatusBar barStyle="light-content" backgroundColor="#161616" />
+      <Appbar.Header style={styles.bgHeader}>
+        <Appbar.BackAction onPress={() => navigation.goBack()} />
+        <Appbar.Content titleStyle={{textAlign: 'center'}} title="Messages" />
+        <Appbar.Action icon="magnify" onPress={() => console.log()} />
+      </Appbar.Header>
+      <View style={styles.innerContainer}>
+        <MessageList nav={navigation} Data={Data} />
+        <View style={styles.fab}>
+            <Image style={styles.imgMsgIcon} source={images.messageIcon}/>
+        </View>
+      </View>
+    </SafeAreaView>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#161616',
+  },
+  innerContainer: {
+    flex: 1,
+    paddingHorizontal: 20,
+  },
+  bgHeader: {
+    backgroundColor: '#161616',
+  },
+  fab: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: '#F8F8FF',
+    position: 'absolute',
+    bottom: 20,
+    right: 20,
+    paddingVertical:13,
+    paddingHorizontal:13
+  },
+  imgMsgIcon:{
+      height:34,
+      width:34
+  }
+});
+export default MessagesScreen;
