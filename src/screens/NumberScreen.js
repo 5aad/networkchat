@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react';
+import React, {useState} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -9,7 +9,44 @@ import {
 } from 'react-native';
 import {Title, Appbar, Button, Paragraph} from 'react-native-paper';
 import images from '../api/images';
+import {
+  Dropdown,
+  GroupDropdown,
+  MultiselectDropdown,
+} from 'sharingan-rn-modal-dropdown';
+const data = [
+  {
+    value: '1',
+    label: '+1',
+    avatarSource: {
+      uri: 'https://www.countryflags.io/be/flat/64.png',
+    },
+  },
+  {
+    value: '2',
+    label: '+2',
+    avatarSource: {
+      uri: 'https://www.countryflags.io/us/flat/64.png',
+    },
+  },
+  {
+    value: '3',
+    label: '+3',
+    avatarSource: {
+      uri: 'https://www.countryflags.io/ca/flat/64.png',
+    },
+  },
+];
+
 const NumberScreen = ({navigation}) => {
+  const [valueSS, setValueSS] = useState('');
+  const [imgFlag, setImgFlag] = useState(
+    'https://www.countryflags.io/us/flat/64.png',
+  );
+  const onChangeSS = (l) => {
+    setValueSS(data.find((e) => e.value === l).label.toString());
+    setImgFlag(data.find((e) => e.value === l).avatarSource.uri.toString());
+  };
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#161616" />
@@ -24,7 +61,18 @@ const NumberScreen = ({navigation}) => {
         </Paragraph>
 
         <View style={styles.numbContainer}>
-          <View style={styles.flagContainer}></View>
+          <View style={styles.flagContainer}>
+            <Image style={styles.imgCall} source={{uri: `${imgFlag}`}} />
+            <Dropdown
+              removeLabel
+              data={data}
+              enableAvatar
+              value={valueSS}
+              onChange={onChangeSS}
+              itemTextStyle={{color: '#fff'}}
+              parentDDContainerStyle={{width: 90}}
+            />
+          </View>
           <View style={styles.inputContainer}>
             <Image style={styles.imgCall} source={images.call} />
             <TextInput
@@ -112,6 +160,9 @@ const styles = StyleSheet.create({
     height: 58,
     width: 80,
     marginRight: 10,
+    color: '#fff',
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   numbContainer: {
     flexDirection: 'row',
