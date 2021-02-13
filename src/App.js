@@ -1,5 +1,5 @@
 import React from 'react';
-import SplashScreen from './screens/NetworkProfile';
+import SplashScreen from './screens/SplashScreen';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import NumberScreen from './screens/NumberScreen';
@@ -10,6 +10,12 @@ import ContactCardScreen from './screens/ContactCardScreen';
 import AddContact from './screens/AddContact';
 import ContactProfile from './screens/ContactProfile';
 import NetworkData from './screens/NetworkData';
+import MessagesScreen from './screens/MessagesScreen';
+import ChatScreen from './screens/ChatScreen';
+import AccountScreen from './screens/AccountScreen';
+import NetworkProfile from './screens/NetworkProfile';
+import ShowProfile from './screens/ShowProfile';
+import Bottom from './Bottom';
 const Stack = createStackNavigator();
 const App = () => {
   return (
@@ -59,6 +65,36 @@ const App = () => {
           options={{headerShown: false}}
           name="networkData"
           component={NetworkData}
+        />
+        <Stack.Screen
+          options={{headerShown: false}}
+          name="message"
+          component={MessagesScreen}
+        />
+        <Stack.Screen
+          options={{headerShown: false}}
+          name="chat"
+          component={ChatScreen}
+        />
+        <Stack.Screen
+          options={{headerShown: false}}
+          name="Account"
+          component={AccountScreen}
+        />
+        <Stack.Screen
+          options={{headerShown: false}}
+          name="profile"
+          component={NetworkProfile}
+        />
+                <Stack.Screen
+          options={{headerShown: false}}
+          name="sprofile"
+          component={ShowProfile}
+        />
+        <Stack.Screen
+          options={{headerShown: false}}
+          name="bottom"
+          component={Bottom}
         />
       </Stack.Navigator>
     </NavigationContainer>

@@ -6,10 +6,11 @@ import {
   TextInput,
   Text,
   ScrollView,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import images from '../api/images';
-const ShowContact = () => {
+const ShowContact = ({nav}) => {
   return (
     <ScrollView>
       <View style={styles.inputContainer}>
@@ -23,10 +24,13 @@ const ShowContact = () => {
       </View>
 
       <View style={styles.flexRows}>
-        <View style={styles.flexCol}>
-          <Image style={styles.imgAvatar} source={images.avatar1} />
-          <Text style={styles.txtName}>Jacky</Text>
-        </View>
+        <TouchableWithoutFeedback
+          onPress={() => nav.navigate('sprofile')}>
+          <View style={styles.flexCol}>
+            <Image style={styles.imgAvatar} source={images.avatar1} />
+            <Text style={styles.txtName}>Jacky</Text>
+          </View>
+        </TouchableWithoutFeedback>
         <View style={styles.flexCol}>
           <Image style={styles.imgAvatar} source={images.avatar2} />
           <Text style={styles.txtName}>Stive</Text>

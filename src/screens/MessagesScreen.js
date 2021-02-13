@@ -1,5 +1,12 @@
 import React from 'react';
-import {SafeAreaView, StyleSheet, StatusBar, View, Image} from 'react-native';
+import {
+  SafeAreaView,
+  StyleSheet,
+  StatusBar,
+  View,
+  Image,
+  TouchableWithoutFeedback,
+} from 'react-native';
 import {Appbar} from 'react-native-paper';
 import images from '../api/images';
 import MessageList from '../components/MessageList';
@@ -72,9 +79,11 @@ const MessagesScreen = ({navigation}) => {
       </Appbar.Header>
       <View style={styles.innerContainer}>
         <MessageList nav={navigation} Data={Data} />
-        <View style={styles.fab}>
-            <Image style={styles.imgMsgIcon} source={images.messageIcon}/>
-        </View>
+        <TouchableWithoutFeedback onPress={() => navigation.navigate('chat')}>
+          <View style={styles.fab}>
+            <Image style={styles.imgMsgIcon} source={images.messageIcon} />
+          </View>
+        </TouchableWithoutFeedback>
       </View>
     </SafeAreaView>
   );
@@ -99,13 +108,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#F8F8FF',
     position: 'absolute',
     bottom: 20,
-    right: 20,
-    paddingVertical:13,
-    paddingHorizontal:13
+    right: 10,
+    paddingVertical: 13,
+    paddingHorizontal: 13,
   },
-  imgMsgIcon:{
-      height:34,
-      width:34
-  }
+  imgMsgIcon: {
+    height: 34,
+    width: 34,
+  },
 });
 export default MessagesScreen;

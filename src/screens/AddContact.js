@@ -7,20 +7,29 @@ import {
   StatusBar,
   Text,
 } from 'react-native';
-import {Title, Appbar, Button, Paragraph} from 'react-native-paper';
+import {Title, Appbar, Button} from 'react-native-paper';
 import ShowContact from '../components/ShowContact';
 const AddContact = ({navigation}) => {
   const [key, setKey] = useState('add');
-  const [addStyle, setAddStyle] = useState('');
+  const [bgColor, setBgColor] = useState('');
+  const [clor, setClor] = useState('');
+  const [bgColors, setBgColors] = useState('');
+  const [clors, setClors] = useState('');
   useEffect(() => {
     if (key === 'add') {
-      setAddStyle('styles.tabBtnLbl');
+      setBgColor('#161616');
+      setClor('#F8F8FF');
     } else {
-      setAddStyle('styles.tabBtnBlank');
+      setBgColor('#F8F8FF');
+      setClor('#161616');
     }
 
     if (key === 'show') {
+      setBgColors('#161616');
+      setClors('#F8F8FF');
     } else {
+      setBgColors('#F8F8FF');
+      setClors('#161616');
     }
   }, [key]);
   return (
@@ -36,10 +45,20 @@ const AddContact = ({navigation}) => {
 
       <View style={styles.innerContainer}>
         <View style={styles.tabBtn}>
-          <Title onPress={() => setKey('add')} style={addStyle}>
+          <Title
+            onPress={() => setKey('add')}
+            style={[
+              styles.tabBtnBlank,
+              {backgroundColor: `${bgColor}`, color: `${clor}`},
+            ]}>
             Add Contact
           </Title>
-          <Title onPress={() => setKey('show')} style={styles.tabBtnBlank}>
+          <Title
+            onPress={() => setKey('show')}
+            style={[
+              styles.tabBtnBlank,
+              {backgroundColor: `${bgColors}`, color: `${clors}`},
+            ]}>
             Show Contact
           </Title>
         </View>
@@ -76,7 +95,7 @@ const AddContact = ({navigation}) => {
             </View>
           </View>
         ) : (
-          <ShowContact />
+          <ShowContact nav={navigation} />
         )}
       </View>
     </SafeAreaView>

@@ -17,7 +17,7 @@ const ChatScreen = ({navigation}) => {
       <Appbar.Header style={styles.bgHeader}>
         <Appbar.BackAction onPress={() => navigation.goBack()} />
         <Image style={styles.imgAvatar} source={images.avatar1} />
-        <Appbar.Content title="Jesica Loren" subtitle={'Last seen yesterday'} />
+        <Appbar.Content onPress={() => navigation.navigate('contactProfile')} title="Jesica Loren" subtitle={'Last seen yesterday'} />
         <Appbar.Action icon="video" onPress={() => console.log()} />
         <Appbar.Action
           style={{width: 20}}

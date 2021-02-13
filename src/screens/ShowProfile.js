@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import {Title, Appbar, Button, Paragraph} from 'react-native-paper';
 import images from '../api/images';
-const ContactProfile = ({navigation}) => {
+const ShowProfile = ({navigation}) => {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#161616" />
@@ -55,26 +55,7 @@ const ContactProfile = ({navigation}) => {
         </View>
       </View>
 
-      <View style={styles.btnOnly}>
-        <Button
-          onPress={() => navigation.navigate('message')}
-          style={styles.btn}
-          icon="block-helper"
-          mode="contained"
-          labelStyle={styles.btnTxt}
-          contentStyle={styles.innerBtn}>
-          Block This User
-        </Button>
-        <Button
-          onPress={() => navigation.navigate('networkData')}
-          style={styles.btn}
-          icon="delete-forever-outline"
-          mode="contained"
-          labelStyle={styles.btnTxt}
-          contentStyle={styles.innerBtn}>
-          Delete Chat History
-        </Button>
-      </View>
+
     </SafeAreaView>
   );
 };
@@ -101,24 +82,6 @@ const styles = StyleSheet.create({
     color: '#F8F8FF',
     flexGrow: 2,
   },
-  btn: {
-    borderRadius: 12,
-    backgroundColor: '#F8F8FF',
-    marginTop: 15,
-  },
-  btnTxt: {
-    fontWeight: '600',
-    fontSize: 18,
-    color: '#FF2222',
-  },
-  innerBtn: {
-    height: 50,
-  },
-  btnOnly: {
-    justifyContent: 'flex-end',
-    flex: 0.9,
-    paddingHorizontal: 30,
-  },
   imgAvatar: {
     height: 102,
     width: 102,
@@ -130,4 +93,4 @@ const styles = StyleSheet.create({
     marginRight: 8,
   },
 });
-export default ContactProfile;
+export default ShowProfile;

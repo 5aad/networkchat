@@ -79,7 +79,7 @@ const ContactCardScreen = ({navigation}) => {
       </ScrollView>
       <View style={styles.btnOnly}>
         <Button
-          onPress={() => navigation.navigate('acard')}
+          onPress={() => navigation.navigate('bottom')}
           style={styles.btn}
           mode="contained"
           labelStyle={styles.btnTxt}

@@ -3,9 +3,18 @@ import {FlatList, Image, StyleSheet, View} from 'react-native';
 import {List, Text} from 'react-native-paper';
 
 const AccountList = ({nav, Data}) => {
+  const handleClick = (name) => {
+    if(name === 'About'){
+      nav.navigate('profile');
+    }else if(name === 'Network Data'){
+      nav.navigate('networkData')
+    }
+    
+  };
   const renderItem = ({item}) => (
     <View style={styles.itemBorder}>
       <List.Item
+        onPress={() => handleClick(item.name)}
         titleStyle={styles.txtName}
         titleNumberOfLines={1}
         title={item.name}
