@@ -6,6 +6,7 @@ import Icons from './components/Icons';
 import AddContact from './screens/AddContact';
 import MessagesScreen from './screens/MessagesScreen';
 import AccountScreen from './screens/AccountScreen';
+
 const Tabs = AnimatedTabBarNavigator();
 const styles = StyleSheet.create({
   b: {
@@ -28,60 +29,67 @@ const TabBarCustomIcon = (props) => {
   return <Icons name={props.name} color={props.tintColor} />;
 };
 
-export default ({initProp}) => (
-  <SafeAreaView style={{backgroundColor: '#161616', flex: 1}}>
-    <Tabs.Navigator
-      initialRouteName={initProp}
-      backBehavior="history"
-      appearence={{
-        whenInactiveShow: 'icon-only',
-        whenActiveShow: 'icon-only',
-        shadow: true,
-        dotSize: 'small',
-      }}
-      tabBarOptions={{
-        activeTintColor: '#fff',
-        inactiveTintColor: '#161616',
-        activeBackgroundColor: '#161616',
-        tabStyle: styles.b,
-      }}>
-      <Tabs.Screen
-        name="Home"
-        component={AddContact}
-        options={{
-          tabBarIcon: ({focused, color, size}) => (
-            <TabBarCustomIcon
-              size={24}
-              focused={focused}
-              tintColor={color}
-              name="home"
-            />
-          ),
+export default ({route}) => {
+  const rt = route.params.routeName;
+  return (
+    <SafeAreaView style={{backgroundColor: '#161616', flex: 1}}>
+      <Tabs.Navigator
+        initialRouteName={rt}
+        backBehavior="history"
+        appearence={{
+          whenInactiveShow: 'icon-only',
+          whenActiveShow: 'icon-only',
+          shadow: true,
+          dotSize: 'small',
         }}
-      />
-      <Tabs.Screen
-        name="Chat"
-        component={MessagesScreen}
-        options={{
-          tabBarIcon: ({focused, color, size}) => (
-            <TabBarCustomIcon focused={focused} tintColor={color} name="chat" />
-          ),
-        }}
-      />
+        tabBarOptions={{
+          activeTintColor: '#fff',
+          inactiveTintColor: '#161616',
+          activeBackgroundColor: '#161616',
+          tabStyle: styles.b,
+        }}>
+        <Tabs.Screen
+          name="Home"
+          component={AddContact}
+          options={{
+            tabBarIcon: ({focused, color, size}) => (
+              <TabBarCustomIcon
+                size={24}
+                focused={focused}
+                tintColor={color}
+                name="home"
+              />
+            ),
+          }}
+        />
+        <Tabs.Screen
+          name="Chat"
+          component={MessagesScreen}
+          options={{
+            tabBarIcon: ({focused, color, size}) => (
+              <TabBarCustomIcon
+                focused={focused}
+                tintColor={color}
+                name="chat"
+              />
+            ),
+          }}
+        />
 
-      <Tabs.Screen
-        name="Profile"
-        component={AccountScreen}
-        options={{
-          tabBarIcon: ({focused, color, size}) => (
-            <TabBarCustomIcon
-              focused={focused}
-              tintColor={color}
-              name="profile"
-            />
-          ),
-        }}
-      />
-    </Tabs.Navigator>
-  </SafeAreaView>
-);
+        <Tabs.Screen
+          name="Profile"
+          component={AccountScreen}
+          options={{
+            tabBarIcon: ({focused, color, size}) => (
+              <TabBarCustomIcon
+                focused={focused}
+                tintColor={color}
+                name="profile"
+              />
+            ),
+          }}
+        />
+      </Tabs.Navigator>
+    </SafeAreaView>
+  );
+};

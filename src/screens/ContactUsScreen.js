@@ -15,7 +15,7 @@ const SplashScreen = ({navigation}) => {
 
   async function fetchMyAPI() {
     const data = await this.performTimeConsumingTask();
-    navigation.navigate('welcome');
+    navigation.navigate('verify');
   }
   useEffect(() => {
     fetchMyAPI();

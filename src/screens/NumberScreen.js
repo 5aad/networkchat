@@ -6,9 +6,11 @@ import {
   TextInput,
   Image,
   StatusBar,
+  PermissionsAndroid,
 } from 'react-native';
 import {Title, Appbar, Button, Paragraph} from 'react-native-paper';
 import images from '../api/images';
+import Contacts from 'react-native-contacts';
 import {
   Dropdown,
   GroupDropdown,
@@ -83,7 +85,14 @@ const NumberScreen = ({navigation}) => {
             />
           </View>
         </View>
-
+        <Title style={styles.txtOr}>OR</Title>
+        <Button
+          style={styles.btn}
+          mode="contained"
+          labelStyle={styles.btnTxt}
+          contentStyle={styles.innerBtn}>
+          Add from Contacts
+        </Button>
         <View style={styles.btnOnly}>
           <Button
             onPress={() => navigation.navigate('contact')}
@@ -99,6 +108,13 @@ const NumberScreen = ({navigation}) => {
   );
 };
 const styles = StyleSheet.create({
+  txtOr:{
+    fontSize:16,
+    fontWeight:'500',
+    textAlign:'center',
+    color:'#F8F8FF',
+    marginVertical:10
+  },
   container: {
     flex: 1,
     backgroundColor: '#161616',
@@ -170,7 +186,7 @@ const styles = StyleSheet.create({
   },
   btnOnly: {
     justifyContent: 'flex-end',
-    height: '55%',
+    height: '40%',
   },
 });
 export default NumberScreen;

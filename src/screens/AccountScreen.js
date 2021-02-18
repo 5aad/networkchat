@@ -12,7 +12,7 @@ import AccountList from '../components/AccountList';
 const Data = [
   {
     id: '1',
-    name: 'About',
+    name: 'Profile',
   },
   {
     id: '2',

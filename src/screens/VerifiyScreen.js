@@ -23,16 +23,17 @@ const VerifiyScreen = ({navigation}) => {
             obfuscation={false}
             autoFocusFirst
             checkPinCode={(code, callback) => callback(code === '12345')}
-            number={5}
-            containerStyle={{height: 80, backgroundColor:'#161616'}}
+            number={4}
+            containerStyle={{height: 80, backgroundColor:'#161616',}}
             textStyle={{marginTop: 0, backgroundColor:'#161616'}}
             containerPinStyle={{
               height: 60,
               marginTop: 0,
-              backgroundColor:'#161616'
+              backgroundColor:'#161616',
+              paddingRight:40
             }}
             pinStyle={{
-              marginLeft: 0,
+
               fontSize: 30,
               backgroundColor: '#161616',
               shadowOpacity: 0,
@@ -46,7 +47,7 @@ const VerifiyScreen = ({navigation}) => {
 
         <View style={styles.btnOnly}>
           <Button
-            onPress={() => navigation.navigate('ccard')}
+            onPress={() => navigation.navigate('welcome')}
             style={styles.btn}
             mode="contained"
             labelStyle={styles.btnTxt}
@@ -96,6 +97,8 @@ const styles = StyleSheet.create({
   numbContainer: {
     flexDirection: 'row',
     marginTop: 45,
+    marginRight:50,
+   
   },
   btnOnly: {
     justifyContent: 'flex-end',
