@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -8,8 +8,37 @@ import {
   Text,
   ScrollView,
 } from 'react-native';
+import Contacts from 'react-native-contacts';
 import {Appbar, Button} from 'react-native-paper';
 const ContactCardScreen = ({navigation}) => {
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [day, setDay] = useState(0);
+  const [month, setMonth] = useState(0);
+  const [location, setLocation] = useState('');
+  const handleAddContact = () => {
+    console.log('sss', day);
+    var newPerson = {
+      emailAddresses: [
+        {
+          label: 'work',
+          email: email,
+        },
+      ],
+      displayName: `${firstName} ${lastName}`,
+      birthday: {month: month, day: day},
+    };
+
+    Contacts.openContactForm(newPerson)
+      .then((contact) => {
+        // contact has been saved
+        console.log(contact);
+      })
+      .then(() => {
+        navigation.navigate('bottom',{routeName:'Home'});
+      });
+  };
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#161616" />
@@ -28,6 +57,7 @@ const ContactCardScreen = ({navigation}) => {
               placeholderTextColor="#161616"
               selectionColor="#161616"
               style={styles.inputStyle}
+              onChangeText={(text) => setFirstName(text)}
             />
           </View>
 
@@ -37,6 +67,7 @@ const ContactCardScreen = ({navigation}) => {
               placeholderTextColor="#161616"
               selectionColor="#161616"
               style={styles.inputStyle}
+              onChangeText={(text) => setLastName(text)}
             />
           </View>
 
@@ -46,6 +77,7 @@ const ContactCardScreen = ({navigation}) => {
               placeholderTextColor="#161616"
               selectionColor="#161616"
               style={styles.inputStyle}
+              onChangeText={(e) => setEmail(e.toString())}
             />
           </View>
 
@@ -57,12 +89,14 @@ const ContactCardScreen = ({navigation}) => {
                 selectionColor="#161616"
                 style={styles.inputStyles}
                 placeholder="D-"
+                onChangeText={(text) => setDay(text)}
               />
               <TextInput
                 placeholderTextColor="#161616"
                 selectionColor="#161616"
                 style={styles.inputStyle}
                 placeholder="M-"
+                onChangeText={(text) => setMonth(text)}
               />
             </View>
           </View>
@@ -73,13 +107,14 @@ const ContactCardScreen = ({navigation}) => {
               placeholderTextColor="#161616"
               selectionColor="#161616"
               style={styles.inputStyle}
+              onChangeText={(text) => setLocation(text)}
             />
           </View>
         </View>
       </ScrollView>
       <View style={styles.btnOnly}>
         <Button
-          onPress={() => navigation.navigate('bottom')}
+          onPress={handleAddContact}
           style={styles.btn}
           mode="contained"
           labelStyle={styles.btnTxt}
@@ -153,7 +188,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     height: '10%',
     paddingHorizontal: 30,
-    marginVertical:20
+    marginVertical: 20,
   },
   lbl: {
     fontSize: 16,

@@ -13,16 +13,7 @@ const PhoneBook = ({navigation}) => {
         <Appbar.BackAction onPress={() => navigation.goBack()} />
       </Appbar.Header>
 
-      <View style={styles.inputContainer}>
-        <TextInput
-          placeholder="Search"
-          // onChangeText={search}
-          placeholderTextColor="#656565"
-          selectionColor="#161616"
-          style={styles.inputStyle}
-        />
-        <Icon name="search" size={24} color="#656565" />
-      </View>
+     
       <View style={styles.lisContainer}>
         <ContactsList nav={navigation} />
       </View>

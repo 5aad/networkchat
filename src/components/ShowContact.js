@@ -5,13 +5,11 @@ import {
   View,
   TextInput,
   Text,
-  ScrollView,
   TouchableWithoutFeedback,
   PermissionsAndroid,
   Platform,
-  FlatList,
 } from 'react-native';
-import {FlatGrid, SectionGrid} from 'react-native-super-grid';
+import {FlatGrid} from 'react-native-super-grid';
 import Contacts from 'react-native-contacts';
 import Icon from 'react-native-vector-icons/Feather';
 import images from '../api/images';
@@ -20,36 +18,55 @@ const ShowContact = ({nav}) => {
 
   useEffect(() => {
     if (Platform.OS === 'ios') {
-      Contacts.getAll()
-        .then((contactd) => {
-          setContacts(contactd);
-        })
-        .catch((e) => {
-          console.log('saad masla arha hai', e);
-        });
+      loadContacts();
     } else if (Platform.OS === 'android') {
       PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_CONTACTS, {
         title: 'Contacts',
         message: 'This app would like to view your contacts.',
         buttonPositive: 'Please accept bare mortal',
       }).then(() => {
-        Contacts.getAll()
-          .then((contactd) => {
-            setContacts(contactd);
-          })
-          .catch((e) => {
-            console.log('Error', e);
-          });
+        loadContacts();
       });
     }
   }, []);
-  // console.log(contacts[0].emailAddresses);
+
+  const loadContacts = () => {
+    Contacts.getAll()
+      .then((contactd) => {
+        setContacts(contactd);
+      })
+      .catch((e) => {
+        console.log('Error', e);
+      });
+
+    Contacts.checkPermission();
+  };
+
+  const searchContacts = (searchText) => {
+    const phoneNumberRegex = /\b[\+]?[(]?[0-9]{2,6}[)]?[-\s\.]?[-\s\/\.0-9]{3,15}\b/m;
+    const emailAddressRegex = /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
+    if (searchText === '' || searchText === null) {
+      loadContacts();
+    } else if (phoneNumberRegex.test(searchText)) {
+      Contacts.getContactsByPhoneNumber(searchText).then((contacts) => {
+        setContacts(contacts);
+      });
+    } else if (emailAddressRegex.test(searchText)) {
+      Contacts.getContactsByEmailAddress(searchText).then((contacts) => {
+        setContacts(contacts);
+      });
+    } else {
+      Contacts.getContactsMatchingString(searchText).then((contacts) => {
+        setContacts(contacts);
+      });
+    }
+  };
   return (
     <View>
       <View style={styles.inputContainer}>
         <TextInput
           placeholder="Search"
-          // onChangeText={search}
+          onChangeText={(searchText) => searchContacts(searchText)}
           placeholderTextColor="#656565"
           selectionColor="#161616"
           style={styles.inputStyle}
@@ -65,7 +82,7 @@ const ShowContact = ({nav}) => {
           style={styles.gridView}
           spacing={2}
           renderItem={({id, item}) => (
-            <View style={styles.itemContainer}>
+            <View style={styles.itemContainer} key={id}>
               <TouchableWithoutFeedback
                 onPress={() =>
                   nav.navigate('sprofile', {
@@ -95,58 +112,6 @@ const ShowContact = ({nav}) => {
             </View>
           )}
         />
-        {/*<View style={styles.flexCol}>
-          <Image style={styles.imgAvatar} source={images.avatar2} />
-          <Text style={styles.txtName}>Stive</Text>
-        </View>
-        <View style={styles.flexCol}>
-          <Image style={styles.imgAvatar} source={images.avatar3} />
-          <Text style={styles.txtName}>Smith</Text>
-        </View>
-        <View style={styles.flexCol}>
-          <Image style={styles.imgAvatar} source={images.avatar1} />
-          <Text style={styles.txtName}>Jacky</Text>
-        </View>
-        <View style={styles.flexCol}>
-          <Image style={styles.imgAvatar} source={images.avatar2} />
-          <Text style={styles.txtName}>Stive</Text>
-        </View>
-        <View style={styles.flexCol}>
-          <Image style={styles.imgAvatar} source={images.avatar3} />
-          <Text style={styles.txtName}>Smith</Text>
-        </View>
-        <View style={styles.flexCol}>
-          <Image style={styles.imgAvatar} source={images.avatar1} />
-          <Text style={styles.txtName}>Jacky</Text>
-        </View>
-        <View style={styles.flexCol}>
-          <Image style={styles.imgAvatar} source={images.avatar2} />
-          <Text style={styles.txtName}>Stive</Text>
-        </View>
-        <View style={styles.flexCol}>
-          <Image style={styles.imgAvatar} source={images.avatar3} />
-          <Text style={styles.txtName}>Smith</Text>
-        </View>
-        <View style={styles.flexCol}>
-          <Image style={styles.imgAvatar} source={images.avatar1} />
-          <Text style={styles.txtName}>Jacky</Text>
-        </View>
-        <View style={styles.flexCol}>
-          <Image style={styles.imgAvatar} source={images.avatar2} />
-          <Text style={styles.txtName}>Stive</Text>
-        </View>
-        <View style={styles.flexCol}>
-          <Image style={styles.imgAvatar} source={images.avatar3} />
-          <Text style={styles.txtName}>Smith</Text>
-        </View> */}
-        {/* <FlatList
-          data={contacts}
-          renderItem={({item}) => (
-            <View>
-              <Text>{`${item.givenName}`}</Text>
-            </View>
-          )}
-        /> */}
       </View>
     </View>
   );
@@ -158,6 +123,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#F8F8FF',
     marginTop: 8,
+    textAlign:"center"
   },
   inputStyle: {
     height: 55,

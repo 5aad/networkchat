@@ -4,7 +4,7 @@ import {List, Text} from 'react-native-paper';
 
 const AccountList = ({nav, Data}) => {
   const handleClick = (name) => {
-    if(name === 'About'){
+    if(name === 'Profile'){
       nav.navigate('profile');
     }else if(name === 'Network Data'){
       nav.navigate('networkData')

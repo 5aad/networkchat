@@ -1,15 +1,66 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
   View,
   StatusBar,
   Image,
-  Text,
+  TouchableWithoutFeedback,
 } from 'react-native';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import {Title, Appbar, Button, Paragraph} from 'react-native-paper';
 import images from '../api/images';
 const NetworkProfile = ({navigation}) => {
+  const [fileData, setFileData] = useState('');
+  const [fileUri, setFileUri] = useState('');
+
+  const launchImageLibrarys = () => {
+    let options = {
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
+    launchImageLibrary(options, (response) => {
+      console.log('Response = ', response);
+
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      } else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+        alert(response.customButton);
+      } else {
+        const source = {uri: response.uri};
+        console.log('response', JSON.stringify(response));
+        setFileData(response.data);
+        setFileUri(response.uri);
+      }
+    });
+  };
+
+  function renderFileUri() {
+    if (fileUri) {
+      return (
+        <TouchableWithoutFeedback onPress={launchImageLibrarys}>
+          <View style={{position: 'relative'}}>
+            <Image style={styles.imgAvatar} source={{uri: fileUri}} />
+            <Image style={styles.imgCamera} source={images.camerabg} />
+          </View>
+        </TouchableWithoutFeedback>
+      );
+    } else {
+      return (
+        <TouchableWithoutFeedback onPress={launchImageLibrarys}>
+          <View style={{position: 'relative'}}>
+            <Image style={styles.imgAvatar} source={images.avatar2} />
+            <Image style={styles.imgCamera} source={images.camerabg} />
+          </View>
+        </TouchableWithoutFeedback>
+      );
+    }
+  }
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#161616" />
@@ -27,10 +78,7 @@ const NetworkProfile = ({navigation}) => {
 
       <View style={styles.innerContainer}>
         <View style={{justifyContent: 'center', alignItems: 'center'}}>
-          <View style={{position: 'relative'}}>
-            <Image style={styles.imgAvatar} source={images.avatar2} />
-            <Image style={styles.imgCamera} source={images.camerabg} />
-          </View>
+          {renderFileUri()}
           <Title style={styles.txtName}>Jubayer Ahmed</Title>
         </View>
         <View>

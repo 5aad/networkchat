@@ -75,7 +75,7 @@ const AddContact = ({navigation}) => {
             </View>
 
             <View style={{marginTop: 15}}>
-              <Text style={styles.lbl}>Last Name</Text>
+              <Text style={styles.lbl}>Phone Number</Text>
               <TextInput
                 placeholderTextColor="#161616"
                 selectionColor="#161616"
