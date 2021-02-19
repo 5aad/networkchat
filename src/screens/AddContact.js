@@ -9,7 +9,10 @@ import {
 } from 'react-native';
 import {Title, Appbar, Button} from 'react-native-paper';
 import ShowContact from '../components/ShowContact';
+import Contacts from 'react-native-contacts';
 const AddContact = ({navigation}) => {
+  const [firstName, setFirstName] = useState('');
+  const [number, setNumber] = useState('');
   const [key, setKey] = useState('add');
   const [bgColor, setBgColor] = useState('#161616');
   const [clor, setClor] = useState('#F8F8FF');
@@ -32,6 +35,24 @@ const AddContact = ({navigation}) => {
       setClors('#161616');
     }
   }, [key]);
+
+  const handleAddContact = () => {
+   
+    var newPerson = {
+      phoneNumbers: [
+        {
+          label: 'mobile',
+          number: number,
+        },
+      ],
+      displayName: `${firstName} `,
+    };
+
+    Contacts.openContactForm(newPerson).then((contact) => {
+      // contact has been saved
+      console.log(contact);
+    });
+  };
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#161616" />
@@ -71,6 +92,7 @@ const AddContact = ({navigation}) => {
                 placeholderTextColor="#161616"
                 selectionColor="#161616"
                 style={styles.inputStyle}
+                onChangeText={(text) => setFirstName(text)}
               />
             </View>
 
@@ -80,12 +102,13 @@ const AddContact = ({navigation}) => {
                 placeholderTextColor="#161616"
                 selectionColor="#161616"
                 style={styles.inputStyle}
+                onChangeText={(text) => setNumber(text)}
               />
             </View>
 
             <View style={styles.btnOnly}>
               <Button
-                onPress={() => navigation.navigate('contactProfile')}
+                onPress={handleAddContact}
                 style={styles.btn}
                 mode="contained"
                 labelStyle={styles.btnTxt}

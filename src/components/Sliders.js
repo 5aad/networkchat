@@ -163,7 +163,7 @@ export default function Carousel({nav}) {
         <Pagination index={index}></Pagination>
         <View style={styles.btnOnly}>
           <Button
-            onPress={() => nav.navigate('ccard', {routeName: 'Chat'})}
+            onPress={() => nav.navigate('bottom', {routeName: 'Chat'})}
             style={styles.btn}
             mode="contained"
             labelStyle={styles.btnTxt}
