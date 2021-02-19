@@ -16,6 +16,7 @@ import AccountScreen from './screens/AccountScreen';
 import NetworkProfile from './screens/NetworkProfile';
 import ShowProfile from './screens/ShowProfile';
 import Bottom from './Bottom';
+import PhoneBook from './screens/PhoneBook';
 const Stack = createStackNavigator();
 const App = () => {
   return (
@@ -90,6 +91,11 @@ const App = () => {
           options={{headerShown: false}}
           name="sprofile"
           component={ShowProfile}
+        />
+         <Stack.Screen
+          options={{headerShown: false}}
+          name="pbook"
+          component={PhoneBook}
         />
         <Stack.Screen
           options={{headerShown: false}}

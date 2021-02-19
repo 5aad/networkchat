@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -10,7 +10,36 @@ import {
 } from 'react-native';
 import {Title, Appbar, Button, Paragraph} from 'react-native-paper';
 import images from '../api/images';
-const ShowProfile = ({navigation}) => {
+import Contacts from 'react-native-contacts';
+const ShowProfile = ({navigation, route}) => {
+  const record_id = route.params.recordID;
+  const displayName = route.params.name;
+  const emailAddress = route.params.email;
+  const phoneNumber = route.params.number;
+  const hasThumbnail = route.params.thumnailBool;
+  const thumbnailPath = route.params.thumbnailPath;
+  const [contactEmail, setContactEmail] = useState('');
+
+  useEffect(() => {
+    if (emailAddress.toString() === '') {
+      setContactEmail('undefined');
+    } else {
+      setContactEmail(emailAddress[0].email);
+    }
+  }, []);
+
+  // useEffect(() => {
+  //   console.log(record_id);
+  //   Contacts.getContactById(`${record_id}`)
+  //     .then((contactd) => {
+  //       setContactProfile(contactd);
+  //     })
+  //     .catch((e) => {
+  //       console.log('saad masla arha hai', e);
+  //     });
+  // }, []);
+  // console.log('yoyo', contactProfile);
+  // console.log(record_id);
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#161616" />
@@ -20,32 +49,50 @@ const ShowProfile = ({navigation}) => {
 
       <View style={styles.innerContainer}>
         <View style={{justifyContent: 'center', alignItems: 'center'}}>
-          <Image style={styles.imgAvatar} source={images.avatar1} />
-          <Title style={styles.txtName}>Jasica Loren</Title>
+          {hasThumbnail === true ? (
+            <Image style={styles.imgAvatar} source={{uri: thumbnailPath}} />
+          ) : (
+            <Image style={styles.imgAvatar} source={images.avatar1} />
+          )}
+          <Title style={styles.txtName}>{displayName}</Title>
         </View>
         <View>
           <View
-            style={{flexDirection: 'row', alignItems: 'center', marginTop: 30}}>
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              marginTop: 30,
+            }}>
             <Image style={styles.imgIcon} source={images.cake} />
             <Paragraph style={styles.txtPara}>1 February</Paragraph>
             <Image style={styles.imgIcon} source={images.horoscope} />
           </View>
           <View
-            style={{flexDirection: 'row', alignItems: 'center', marginTop: 30}}>
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              marginTop: 30,
+            }}>
             <Image style={styles.imgIcon} source={images.loc} />
             <Paragraph style={styles.txtPara}>London, UK</Paragraph>
           </View>
           <View
-            style={{flexDirection: 'row', alignItems: 'center', marginTop: 30}}>
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              marginTop: 30,
+            }}>
             <Image style={styles.imgIcon} source={images.email} />
-            <Paragraph style={styles.txtPara}>
-              jubayerkawsar97@gmail.com
-            </Paragraph>
+            <Paragraph style={styles.txtPara}>{contactEmail}</Paragraph>
           </View>
           <View
-            style={{flexDirection: 'row', alignItems: 'center', marginTop: 30}}>
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              marginTop: 30,
+            }}>
             <Image style={styles.imgIcon} source={images.call} />
-            <Paragraph style={styles.txtPara}>897-654-3434</Paragraph>
+            <Paragraph style={styles.txtPara}>{phoneNumber}</Paragraph>
           </View>
           <View style={{marginTop: 30}}>
             <Paragraph style={styles.txtPara}>
@@ -54,8 +101,6 @@ const ShowProfile = ({navigation}) => {
           </View>
         </View>
       </View>
-
-
     </SafeAreaView>
   );
 };

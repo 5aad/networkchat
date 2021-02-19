@@ -9,74 +9,47 @@ import {
   TouchableWithoutFeedback,
   PermissionsAndroid,
   Platform,
+  FlatList,
 } from 'react-native';
+import {FlatGrid, SectionGrid} from 'react-native-super-grid';
 import Contacts from 'react-native-contacts';
 import Icon from 'react-native-vector-icons/Feather';
 import images from '../api/images';
 const ShowContact = ({nav}) => {
   const [contacts, setContacts] = useState([]);
+
   useEffect(() => {
-    if (Platform.OS === 'android') {
+    if (Platform.OS === 'ios') {
+      Contacts.getAll()
+        .then((contactd) => {
+          setContacts(contactd);
+        })
+        .catch((e) => {
+          console.log('saad masla arha hai', e);
+        });
+    } else if (Platform.OS === 'android') {
       PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_CONTACTS, {
         title: 'Contacts',
         message: 'This app would like to view your contacts.',
+        buttonPositive: 'Please accept bare mortal',
       }).then(() => {
-        loadContacts();
+        Contacts.getAll()
+          .then((contactd) => {
+            setContacts(contactd);
+          })
+          .catch((e) => {
+            console.log('Error', e);
+          });
       });
-    } else {
-      loadContacts();
     }
   }, []);
-
-  const loadContacts = () => {
-    Contacts.getAll((err, contacts) => {
-      contacts.sort(
-        (a, b) => a.givenName.toLowerCase() > b.givenName.toLowerCase(),
-      );
-      console.log('contacts -> ', contacts);
-      if (err === 'denied') {
-        alert('Permission to access contacts was denied');
-        console.warn('Permission to access contacts was denied');
-      } else {
-        setContacts(contacts);
-        console.log('contacts', contacts);
-      }
-    });
-  };
-
-  const search = (text) => {
-    const phoneNumberRegex = /\b[\+]?[(]?[0-9]{2,6}[)]?[-\s\.]?[-\s\/\.0-9]{3,15}\b/m;
-    if (text === '' || text === null) {
-      loadContacts();
-    } else if (phoneNumberRegex.test(text)) {
-      Contacts.getContactsByPhoneNumber(text, (err, contacts) => {
-        contacts.sort(
-          (a, b) => a.givenName.toLowerCase() > b.givenName.toLowerCase(),
-        );
-        setContacts(contacts);
-        console.log('contacts', contacts);
-      });
-    } else {
-      Contacts.getContactsMatchingString(text, (err, contacts) => {
-        contacts.sort(
-          (a, b) => a.givenName.toLowerCase() > b.givenName.toLowerCase(),
-        );
-        setContacts(contacts);
-        console.log('contacts', contacts);
-      });
-    }
-  };
-
-  const openContact = (contact) => {
-    console.log(JSON.stringify(contact));
-    Contacts.openExistingContact(contact, () => {});
-  };
+  // console.log(contacts[0].emailAddresses);
   return (
-    <ScrollView>
+    <View>
       <View style={styles.inputContainer}>
         <TextInput
           placeholder="Search"
-          onChangeText={search}
+          // onChangeText={search}
           placeholderTextColor="#656565"
           selectionColor="#161616"
           style={styles.inputStyle}
@@ -84,16 +57,45 @@ const ShowContact = ({nav}) => {
         <Icon name="search" size={24} color="#656565" />
       </View>
 
-      
-
       <View style={styles.flexRows}>
-        <TouchableWithoutFeedback onPress={() => nav.navigate('sprofile')}>
-          <View style={styles.flexCol}>
-            <Image style={styles.imgAvatar} source={images.avatar1} />
-            <Text style={styles.txtName}>Jacky</Text>
-          </View>
-        </TouchableWithoutFeedback>
-        <View style={styles.flexCol}>
+        <FlatGrid
+          itemDimension={100}
+          data={contacts}
+          // keyExtractor={({id}, index) => id}
+          style={styles.gridView}
+          spacing={2}
+          renderItem={({id, item}) => (
+            <View style={styles.itemContainer}>
+              <TouchableWithoutFeedback
+                onPress={() =>
+                  nav.navigate('sprofile', {
+                    recordID: item.recordID,
+                    name: item.displayName,
+                    number: item.phoneNumbers[0].number,
+                    email:
+                      item.emailAddresses === null
+                        ? 'undefined'
+                        : item.emailAddresses,
+                    thumnailBool: item.hasThumbnail,
+                    thumbnailPath: item.thumbnailPath,
+                  })
+                }>
+                <View style={styles.flexCol}>
+                  {item.hasThumbnail === true ? (
+                    <Image
+                      style={styles.imgAvatar}
+                      source={{uri: item.thumbnailPath}}
+                    />
+                  ) : (
+                    <Image style={styles.imgAvatar} source={images.avatar1} />
+                  )}
+                  <Text style={styles.txtName}>{item.displayName}</Text>
+                </View>
+              </TouchableWithoutFeedback>
+            </View>
+          )}
+        />
+        {/*<View style={styles.flexCol}>
           <Image style={styles.imgAvatar} source={images.avatar2} />
           <Text style={styles.txtName}>Stive</Text>
         </View>
@@ -136,9 +138,17 @@ const ShowContact = ({nav}) => {
         <View style={styles.flexCol}>
           <Image style={styles.imgAvatar} source={images.avatar3} />
           <Text style={styles.txtName}>Smith</Text>
-        </View>
+        </View> */}
+        {/* <FlatList
+          data={contacts}
+          renderItem={({item}) => (
+            <View>
+              <Text>{`${item.givenName}`}</Text>
+            </View>
+          )}
+        /> */}
       </View>
-    </ScrollView>
+    </View>
   );
 };
 
@@ -182,6 +192,12 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     flexWrap: 'wrap',
     marginBottom: 15,
+  },
+  gridView: {
+    flex: 1,
+  },
+  itemContainer: {
+    flexDirection: 'row',
   },
   imgAvatar: {
     height: 75,

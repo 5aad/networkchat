@@ -11,10 +11,10 @@ import {Title, Appbar, Button} from 'react-native-paper';
 import ShowContact from '../components/ShowContact';
 const AddContact = ({navigation}) => {
   const [key, setKey] = useState('add');
-  const [bgColor, setBgColor] = useState('');
-  const [clor, setClor] = useState('');
-  const [bgColors, setBgColors] = useState('');
-  const [clors, setClors] = useState('');
+  const [bgColor, setBgColor] = useState('#161616');
+  const [clor, setClor] = useState('#F8F8FF');
+  const [bgColors, setBgColors] = useState('#F8F8FF');
+  const [clors, setClors] = useState('#161616');
   useEffect(() => {
     if (key === 'add') {
       setBgColor('#161616');

@@ -87,6 +87,7 @@ const NumberScreen = ({navigation}) => {
         </View>
         <Title style={styles.txtOr}>OR</Title>
         <Button
+        onPress={() => navigation.navigate('pbook',{routeName:"Home"})}
           style={styles.btn}
           mode="contained"
           labelStyle={styles.btnTxt}
