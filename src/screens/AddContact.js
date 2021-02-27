@@ -37,7 +37,6 @@ const AddContact = ({navigation}) => {
   }, [key]);
 
   const handleAddContact = () => {
-   
     var newPerson = {
       phoneNumbers: [
         {
@@ -105,6 +104,15 @@ const AddContact = ({navigation}) => {
                 onChangeText={(text) => setNumber(text)}
               />
             </View>
+            <Title style={styles.txtOr}>OR</Title>
+            <Button
+              onPress={() => navigation.navigate('pbook', {routeName: 'Home'})}
+              style={styles.btn}
+              mode="contained"
+              labelStyle={styles.btnTxt}
+              contentStyle={styles.innerBtn}>
+              Add from Contacts
+            </Button>
 
             <View style={styles.btnOnly}>
               <Button
@@ -125,6 +133,13 @@ const AddContact = ({navigation}) => {
   );
 };
 const styles = StyleSheet.create({
+  txtOr:{
+    fontSize:16,
+    fontWeight:'500',
+    textAlign:'center',
+    color:'#F8F8FF',
+    marginVertical:10
+  },
   container: {
     flex: 1,
     backgroundColor: '#161616',
@@ -185,7 +200,7 @@ const styles = StyleSheet.create({
   },
   btnOnly: {
     justifyContent: 'flex-end',
-    height: '55%',
+    height: '35%',
   },
   lbl: {
     fontSize: 16,

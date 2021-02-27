@@ -85,7 +85,7 @@ const NumberScreen = ({navigation}) => {
             />
           </View>
         </View>
-        <Title style={styles.txtOr}>OR</Title>
+        {/* <Title style={styles.txtOr}>OR</Title>
         <Button
         onPress={() => navigation.navigate('pbook',{routeName:"Home"})}
           style={styles.btn}
@@ -93,7 +93,7 @@ const NumberScreen = ({navigation}) => {
           labelStyle={styles.btnTxt}
           contentStyle={styles.innerBtn}>
           Add from Contacts
-        </Button>
+        </Button> */}
         <View style={styles.btnOnly}>
           <Button
             onPress={() => navigation.navigate('contact')}
@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
   },
   btnOnly: {
     justifyContent: 'flex-end',
-    height: '40%',
+    height: '56%',
   },
 });
 export default NumberScreen;

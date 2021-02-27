@@ -7,7 +7,7 @@ import {
   Image,
   TouchableWithoutFeedback,
 } from 'react-native';
-import {Appbar} from 'react-native-paper';
+import {Appbar, IconButton, Menu, Divider} from 'react-native-paper';
 import images from '../api/images';
 import MessageList from '../components/MessageList';
 const Data = [
@@ -69,6 +69,10 @@ const Data = [
   },
 ];
 const MessagesScreen = ({navigation}) => {
+  const [visible, setVisible] = React.useState(false);
+  const openMenu = () => setVisible(true);
+
+  const closeMenu = () => setVisible(false);
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#161616" />
@@ -76,6 +80,25 @@ const MessagesScreen = ({navigation}) => {
         <Appbar.BackAction onPress={() => navigation.goBack()} />
         <Appbar.Content titleStyle={{textAlign: 'center'}} title="Messages" />
         <Appbar.Action icon="magnify" onPress={() => console.log()} />
+        <Menu
+          visible={visible}
+          onDismiss={closeMenu}
+          anchor={
+            <IconButton
+              icon="dots-vertical"
+              color="#fff"
+              size={24}
+              onPress={openMenu}
+            />
+          }>
+          <Menu.Item onPress={() => {}} title="Create Group" />
+          <Divider />
+          <Menu.Item onPress={() => {}} title="Join Group" />
+          <Divider />
+          <Menu.Item onPress={() => {}} title="Invite Group" />
+          <Divider />
+          <Menu.Item onPress={() => {}} title="Manage Group" />
+        </Menu>
       </Appbar.Header>
       <View style={styles.innerContainer}>
         <MessageList nav={navigation} Data={Data} />

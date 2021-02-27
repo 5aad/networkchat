@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import {Appbar} from 'react-native-paper';
 import images from '../api/images';
+import MessageBubble from '../components/MessageBubble';
 const ChatScreen = ({navigation}) => {
   return (
     <SafeAreaView style={styles.container}>
@@ -17,7 +18,11 @@ const ChatScreen = ({navigation}) => {
       <Appbar.Header style={styles.bgHeader}>
         <Appbar.BackAction onPress={() => navigation.goBack()} />
         <Image style={styles.imgAvatar} source={images.avatar1} />
-        <Appbar.Content onPress={() => navigation.navigate('contactProfile')} title="Jesica Loren" subtitle={'Last seen yesterday'} />
+        <Appbar.Content
+          onPress={() => navigation.navigate('contactProfile')}
+          title="Jesica Loren"
+          subtitle={'Last seen yesterday'}
+        />
         <Appbar.Action icon="video" onPress={() => console.log()} />
         <Appbar.Action
           style={{width: 20}}
@@ -32,7 +37,10 @@ const ChatScreen = ({navigation}) => {
       </Appbar.Header>
 
       <ScrollView>
-        <View style={styles.chatContainer}></View>
+        <View style={styles.chatContainer}>
+          <MessageBubble text="Hello Syed! What’s up ? Are you in to  available to connects with the world one of largest adbanching amazing connector ? Hello Syed! What’s up ? Are you in to  available to connects with the world one of largest" />
+          <MessageBubble mine text="Hello Juin ! What’s up ? Are you in to  available to connects with the world one of largest" />
+        </View>
       </ScrollView>
 
       <View style={styles.inputContainer}>
