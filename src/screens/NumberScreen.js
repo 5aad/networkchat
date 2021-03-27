@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -7,8 +7,19 @@ import {
   Image,
   StatusBar,
   PermissionsAndroid,
+  Text,
+  TouchableWithoutFeedback,
 } from 'react-native';
-import {Title, Appbar, Button, Paragraph} from 'react-native-paper';
+import {SvgCssUri} from 'react-native-svg';
+import {
+  Title,
+  Appbar,
+  Button,
+  Paragraph,
+  IconButton,
+  Menu,
+  Divider,
+} from 'react-native-paper';
 import images from '../api/images';
 import Contacts from 'react-native-contacts';
 import {
@@ -35,26 +46,40 @@ const data = [
     value: '3',
     label: '+3',
     avatarSource: {
-      uri: 'https://www.countryflags.io/ca/flat/64.png',
+      uri: 'https://restcountries.eu/data/afg.svg',
     },
   },
 ];
 
 const NumberScreen = ({navigation}) => {
+  useEffect(() => {
+    fetch('https://restcountries.eu/rest/v2/all')
+      .then((res) => res.json())
+      .then((json) => {
+        // console.log(json[4].flag);
+        setTest(json);
+      });
+  }, []);
+  const [test, setTest] = useState([]);
   const [valueSS, setValueSS] = useState('');
   const [imgFlag, setImgFlag] = useState(
     'https://www.countryflags.io/us/flat/64.png',
   );
-  const onChangeSS = (l) => {
-    setValueSS(data.find((e) => e.value === l).label.toString());
-    setImgFlag(data.find((e) => e.value === l).avatarSource.uri.toString());
+
+  const [visible, setVisible] = React.useState(false);
+  const openMenu = () => setVisible(true);
+
+  const closeMenu = () => setVisible(false);
+
+  const num = (alpha, code) => {
+    setImgFlag(`https://www.countryflags.io/${alpha}/flat/64.png`);
+    setValueSS(`+${code}`);
+    setVisible(false);
   };
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#161616" />
-      <Appbar.Header style={styles.bgHeader}>
-        <Appbar.BackAction onPress={() => navigation.goBack()} />
-      </Appbar.Header>
+      <Appbar.Header style={styles.bgHeader}></Appbar.Header>
       <View style={styles.innerContainer}>
         <Title style={styles.txtTitle}>Welcome</Title>
         <Paragraph style={styles.txtPara}>
@@ -65,15 +90,40 @@ const NumberScreen = ({navigation}) => {
         <View style={styles.numbContainer}>
           <View style={styles.flagContainer}>
             <Image style={styles.imgCall} source={{uri: `${imgFlag}`}} />
-            <Dropdown
-              removeLabel
-              data={data}
-              enableAvatar
-              value={valueSS}
-              onChange={onChangeSS}
-              itemTextStyle={{color: '#fff'}}
-              parentDDContainerStyle={{width: 90}}
-            />
+            <Menu
+              visible={visible}
+              onDismiss={closeMenu}
+              anchor={
+                <IconButton
+                  icon="arrow-down-drop-circle-outline"
+                  color="#fff"
+                  size={18}
+                  onPress={openMenu}
+                />
+              }>
+              {test.map((item) => (
+                <>
+                  <TouchableWithoutFeedback
+                    onPress={() => num(item.alpha2Code, item.callingCodes)}>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        marginVertical: 10,
+                      }}>
+                      <Image
+                        style={styles.imgCall}
+                        source={{
+                          uri: `https://www.countryflags.io/${item.alpha2Code}/flat/64.png`,
+                        }}
+                      />
+                      <Text style={{fontSize: 16}}>{item.callingCodes}</Text>
+                    </View>
+                  </TouchableWithoutFeedback>
+                  <Divider />
+                </>
+              ))}
+            </Menu>
           </View>
           <View style={styles.inputContainer}>
             <Image style={styles.imgCall} source={images.call} />
@@ -82,6 +132,7 @@ const NumberScreen = ({navigation}) => {
               placeholderTextColor="#F8F8FF"
               selectionColor="#F8F8FF"
               style={styles.inputNum}
+              value={valueSS}
             />
           </View>
         </View>
@@ -109,12 +160,12 @@ const NumberScreen = ({navigation}) => {
   );
 };
 const styles = StyleSheet.create({
-  txtOr:{
-    fontSize:16,
-    fontWeight:'500',
-    textAlign:'center',
-    color:'#F8F8FF',
-    marginVertical:10
+  txtOr: {
+    fontSize: 16,
+    fontWeight: '500',
+    textAlign: 'center',
+    color: '#F8F8FF',
+    marginVertical: 10,
   },
   container: {
     flex: 1,
@@ -160,7 +211,8 @@ const styles = StyleSheet.create({
   imgCall: {
     height: 18.2,
     width: 18.2,
-    marginHorizontal: 15,
+    marginLeft: 15,
+    marginRight:5
   },
   inputContainer: {
     flexDirection: 'row',
