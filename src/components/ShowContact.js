@@ -13,53 +13,20 @@ import {FlatGrid} from 'react-native-super-grid';
 import Contacts from 'react-native-contacts';
 import Icon from 'react-native-vector-icons/Feather';
 import images from '../api/images';
+import {useSelector} from 'react-redux';
 const ShowContact = ({nav}) => {
-  const [contacts, setContacts] = useState([]);
-
-  useEffect(() => {
-    if (Platform.OS === 'ios') {
-      loadContacts();
-    } else if (Platform.OS === 'android') {
-      PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_CONTACTS, {
-        title: 'Contacts',
-        message: 'This app would like to view your contacts.',
-        buttonPositive: 'Please accept bare mortal',
-      }).then(() => {
-        loadContacts();
-      });
-    }
-  }, []);
-
-  const loadContacts = () => {
-    Contacts.getAll()
-      .then((contactd) => {
-        setContacts(contactd);
-      })
-      .catch((e) => {
-        console.log('Error', e);
-      });
-
-    Contacts.checkPermission();
-  };
+  const prevCons = useSelector((state) => state.contact.contacts);
+  const [contacts, setContacts] = useState(prevCons);
 
   const searchContacts = (searchText) => {
-    const phoneNumberRegex = /\b[\+]?[(]?[0-9]{2,6}[)]?[-\s\.]?[-\s\/\.0-9]{3,15}\b/m;
-    const emailAddressRegex = /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
-    if (searchText === '' || searchText === null) {
-      loadContacts();
-    } else if (phoneNumberRegex.test(searchText)) {
-      Contacts.getContactsByPhoneNumber(searchText).then((contacts) => {
-        setContacts(contacts);
-      });
-    } else if (emailAddressRegex.test(searchText)) {
-      Contacts.getContactsByEmailAddress(searchText).then((contacts) => {
-        setContacts(contacts);
-      });
-    } else {
-      Contacts.getContactsMatchingString(searchText).then((contacts) => {
-        setContacts(contacts);
-      });
-    }
+    if (searchText) {
+      let temp = contacts.filter(
+        (item) =>
+          item.phone.includes(searchText) ||
+          item.firstName.includes(searchText),
+      );
+      setContacts(temp);
+    } else setContacts(prevCons);
   };
   return (
     <View>
@@ -106,7 +73,7 @@ const ShowContact = ({nav}) => {
                   ) : (
                     <Image style={styles.imgAvatar} source={images.avatar1} />
                   )}
-                  <Text style={styles.txtName}>{item.displayName}</Text>
+                  <Text style={styles.txtName}>{item.firstName}</Text>
                 </View>
               </TouchableWithoutFeedback>
             </View>
@@ -123,7 +90,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#F8F8FF',
     marginTop: 8,
-    textAlign:"center"
+    textAlign: 'center',
   },
   inputStyle: {
     height: 55,

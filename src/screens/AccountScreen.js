@@ -5,10 +5,13 @@ import {
   View,
   StatusBar,
   Image,
+  Text,
 } from 'react-native';
 import {Title, Appbar} from 'react-native-paper';
 import images from '../api/images';
 import AccountList from '../components/AccountList';
+import {useSelector} from 'react-redux';
+import {getInitials} from '../redux/actions/auth';
 const Data = [
   {
     id: '1',
@@ -38,8 +41,13 @@ const Data = [
     id: '7',
     name: 'Terms and Conditions',
   },
+  {
+    id: '8',
+    name: 'Logout',
+  },
 ];
 const AccountScreen = ({navigation}) => {
+  const user = useSelector((state) => state.auth.user);
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#161616" />
@@ -49,12 +57,34 @@ const AccountScreen = ({navigation}) => {
 
       <View style={styles.innerContainer}>
         <View style={{justifyContent: 'center', alignItems: 'center'}}>
-          <Image style={styles.imgAvatar} source={images.avatar1} />
-          <Title style={styles.txtName}>Jasica Loren</Title>
+          {user.image ? (
+            <Image style={styles.imgAvatar} source={images.avatar1} />
+          ) : (
+            <View
+              style={{
+                height: 102,
+                width: 102,
+                borderRadius: 12,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <Text
+                style={{
+                  color: 'white',
+                  fontWeight: 'bold',
+                  fontSize: 50,
+                }}>
+                {getInitials(user.fullName)}
+              </Text>
+            </View>
+          )}
+
+          <Title style={styles.txtName}>{user.fullName}</Title>
         </View>
       </View>
       <View style={styles.lisContainer}>
-        <AccountList nav={navigation} Data={Data}/>
+        <AccountList nav={navigation} Data={Data} />
       </View>
     </SafeAreaView>
   );
@@ -67,7 +97,7 @@ const styles = StyleSheet.create({
   innerContainer: {
     paddingHorizontal: 30,
   },
-  lisContainer:{
+  lisContainer: {
     flex: 1,
     paddingHorizontal: 20,
   },

@@ -9,8 +9,9 @@ import {
   PermissionsAndroid,
   Text,
   TouchableWithoutFeedback,
+  ActivityIndicator,
+  Alert,
 } from 'react-native';
-import {SvgCssUri} from 'react-native-svg';
 import {
   Title,
   Appbar,
@@ -22,60 +23,64 @@ import {
 } from 'react-native-paper';
 import images from '../api/images';
 import Contacts from 'react-native-contacts';
-import {
-  Dropdown,
-  GroupDropdown,
-  MultiselectDropdown,
-} from 'sharingan-rn-modal-dropdown';
-const data = [
-  {
-    value: '1',
-    label: '+1',
-    avatarSource: {
-      uri: 'https://www.countryflags.io/be/flat/64.png',
-    },
-  },
-  {
-    value: '2',
-    label: '+2',
-    avatarSource: {
-      uri: 'https://www.countryflags.io/us/flat/64.png',
-    },
-  },
-  {
-    value: '3',
-    label: '+3',
-    avatarSource: {
-      uri: 'https://restcountries.eu/data/afg.svg',
-    },
-  },
-];
+import _ from 'lodash';
+import {registerPhone} from '../redux/actions/auth';
+import {useDispatch} from 'react-redux';
 
 const NumberScreen = ({navigation}) => {
   useEffect(() => {
     fetch('https://restcountries.eu/rest/v2/all')
       .then((res) => res.json())
-      .then((json) => {
-        // console.log(json[4].flag);
-        setTest(json);
+      .then((data) => {
+        let temp = data.filter(
+          (item) => item.callingCodes.length > 0 && item.callingCodes[0] !== '',
+        );
+        temp = temp.map((item) => {
+          return {
+            ...item,
+            code: `+${item.callingCodes[0]}`,
+            flag: `https://www.countryflags.io/${item.alpha2Code}/flat/64.png`,
+          };
+        });
+        temp = _.orderBy(temp, 'code');
+        setCode(temp[0]);
+        setTest(temp);
       });
   }, []);
+  const dispatch = useDispatch();
   const [test, setTest] = useState([]);
-  const [valueSS, setValueSS] = useState('');
-  const [imgFlag, setImgFlag] = useState(
-    'https://www.countryflags.io/us/flat/64.png',
-  );
+  const [selectedCountry, setCode] = useState('');
+  const [number, setNumber] = useState();
+  const [loading, setLoading] = useState(false);
 
   const [visible, setVisible] = React.useState(false);
   const openMenu = () => setVisible(true);
 
   const closeMenu = () => setVisible(false);
 
-  const num = (alpha, code) => {
-    setImgFlag(`https://www.countryflags.io/${alpha}/flat/64.png`);
-    setValueSS(`+${code}`);
+  const num = (item) => {
+    setCode(item);
     setVisible(false);
   };
+
+  const onSubmit = async () => {
+    setLoading(true);
+    if (!number) {
+      Alert.alert('Please enter a number');
+      return;
+    } else {
+      const result = await registerPhone(`+92${number}`);
+      if (result.status == 400) {
+        Alert.alert(result.data.data);
+        navigation.navigate('contact');
+      } else {
+        Alert.alert('Verification code sent');
+        setLoading(false);
+        navigation.navigate('verify', {phone: `+92${number}`});
+      }
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#161616" />
@@ -89,7 +94,10 @@ const NumberScreen = ({navigation}) => {
 
         <View style={styles.numbContainer}>
           <View style={styles.flagContainer}>
-            <Image style={styles.imgCall} source={{uri: `${imgFlag}`}} />
+            <Image
+              style={styles.imgCall}
+              source={{uri: selectedCountry.flag}}
+            />
             <Menu
               visible={visible}
               onDismiss={closeMenu}
@@ -102,9 +110,8 @@ const NumberScreen = ({navigation}) => {
                 />
               }>
               {test.map((item) => (
-                <>
-                  <TouchableWithoutFeedback
-                    onPress={() => num(item.alpha2Code, item.callingCodes)}>
+                <View style={{width: 100}}>
+                  <TouchableWithoutFeedback onPress={() => num(item.code)}>
                     <View
                       style={{
                         flexDirection: 'row',
@@ -114,46 +121,43 @@ const NumberScreen = ({navigation}) => {
                       <Image
                         style={styles.imgCall}
                         source={{
-                          uri: `https://www.countryflags.io/${item.alpha2Code}/flat/64.png`,
+                          uri: item.flag,
                         }}
                       />
-                      <Text style={{fontSize: 16}}>{item.callingCodes}</Text>
+                      <Text style={{fontSize: 16}}>{item.code}</Text>
                     </View>
                   </TouchableWithoutFeedback>
                   <Divider />
-                </>
+                </View>
               ))}
             </Menu>
           </View>
           <View style={styles.inputContainer}>
             <Image style={styles.imgCall} source={images.call} />
             <TextInput
-              placeholder="+13457690456"
+              placeholder="3457690456"
               placeholderTextColor="#F8F8FF"
               selectionColor="#F8F8FF"
               style={styles.inputNum}
-              value={valueSS}
+              value={number}
+              onChangeText={(val) => setNumber(val)}
             />
           </View>
         </View>
-        {/* <Title style={styles.txtOr}>OR</Title>
-        <Button
-        onPress={() => navigation.navigate('pbook',{routeName:"Home"})}
-          style={styles.btn}
-          mode="contained"
-          labelStyle={styles.btnTxt}
-          contentStyle={styles.innerBtn}>
-          Add from Contacts
-        </Button> */}
+
         <View style={styles.btnOnly}>
-          <Button
-            onPress={() => navigation.navigate('contact')}
-            style={styles.btn}
-            mode="contained"
-            labelStyle={styles.btnTxt}
-            contentStyle={styles.innerBtn}>
-            Continue
-          </Button>
+          {loading ? (
+            <ActivityIndicator size="large" color="#fff" />
+          ) : (
+            <Button
+              onPress={() => onSubmit()}
+              style={styles.btn}
+              mode="contained"
+              labelStyle={styles.btnTxt}
+              contentStyle={styles.innerBtn}>
+              Continue
+            </Button>
+          )}
         </View>
       </View>
     </SafeAreaView>
@@ -212,7 +216,7 @@ const styles = StyleSheet.create({
     height: 18.2,
     width: 18.2,
     marginLeft: 15,
-    marginRight:5
+    marginRight: 5,
   },
   inputContainer: {
     flexDirection: 'row',

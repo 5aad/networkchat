@@ -104,7 +104,7 @@ function Pagination({index}) {
   );
 }
 
-export default function Carousel({nav}) {
+export default function Carousel({nav, phone}) {
   const [index, setIndex] = useState(0);
   const indexRef = useRef(index);
   indexRef.current = index;
@@ -163,7 +163,7 @@ export default function Carousel({nav}) {
         <Pagination index={index}></Pagination>
         <View style={styles.btnOnly}>
           <Button
-            onPress={() => nav.navigate('bottom', {routeName: 'Chat'})}
+            onPress={() => nav.navigate('ccard', {phone: phone})}
             style={styles.btn}
             mode="contained"
             labelStyle={styles.btnTxt}

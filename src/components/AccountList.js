@@ -1,15 +1,18 @@
+import AsyncStorage from '@react-native-community/async-storage';
 import React from 'react';
 import {FlatList, Image, StyleSheet, View} from 'react-native';
 import {List, Text} from 'react-native-paper';
 
 const AccountList = ({nav, Data}) => {
   const handleClick = (name) => {
-    if(name === 'Profile'){
+    if (name === 'Profile') {
       nav.navigate('profile');
-    }else if(name === 'Network Data'){
-      nav.navigate('networkData')
+    } else if (name === 'Network Data') {
+      nav.navigate('networkData');
+    } else if (name === 'Logout') {
+      AsyncStorage.removeItem('@auth_token');
+      nav.navigate('number');
     }
-    
   };
   const renderItem = ({item}) => (
     <View style={styles.itemBorder}>

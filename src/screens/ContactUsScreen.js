@@ -1,29 +1,19 @@
 import React, {useEffect, useState} from 'react';
-import {SafeAreaView, View, Text, Image, StyleSheet, StatusBar} from 'react-native';
+import {
+  SafeAreaView,
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  StatusBar,
+} from 'react-native';
 import {Paragraph, Appbar} from 'react-native-paper';
 import images from '../api/images';
 
 const SplashScreen = ({navigation}) => {
-  const [user, setUser] = useState('');
-  performTimeConsumingTask = async () => {
-    return new Promise((resolve) =>
-      setTimeout(() => {
-        resolve('result');
-      }, 2000),
-    );
-  };
-
-  async function fetchMyAPI() {
-    const data = await this.performTimeConsumingTask();
-    navigation.navigate('verify');
-  }
-  useEffect(() => {
-    fetchMyAPI();
-  }, []);
-
   return (
     <SafeAreaView style={styles.container}>
-              <StatusBar barStyle="light-content" backgroundColor="#161616" />
+      <StatusBar barStyle="light-content" backgroundColor="#161616" />
       <Appbar.Header style={styles.bgHeader}>
         <Appbar.BackAction onPress={() => navigation.goBack()} />
       </Appbar.Header>

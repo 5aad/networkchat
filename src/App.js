@@ -21,7 +21,7 @@ const Stack = createStackNavigator();
 const App = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="SplashScreen">
+      <Stack.Navigator initialRouteName="Splash">
         <Stack.Screen
           options={{headerShown: false}}
           name="Splash"
@@ -37,6 +37,7 @@ const App = () => {
           name="contact"
           component={ContactUsScreen}
         />
+
         <Stack.Screen
           options={{headerShown: false}}
           name="welcome"
@@ -87,12 +88,12 @@ const App = () => {
           name="profile"
           component={NetworkProfile}
         />
-                <Stack.Screen
+        <Stack.Screen
           options={{headerShown: false}}
           name="sprofile"
           component={ShowProfile}
         />
-         <Stack.Screen
+        <Stack.Screen
           options={{headerShown: false}}
           name="pbook"
           component={PhoneBook}

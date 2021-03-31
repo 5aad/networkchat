@@ -6,11 +6,16 @@ import {
   TextInput,
   StatusBar,
   Text,
+  ActivityIndicator,
+  Alert,
 } from 'react-native';
 import {Title, Appbar, Button} from 'react-native-paper';
 import ShowContact from '../components/ShowContact';
 import Contacts from 'react-native-contacts';
+import {addContact} from '../redux/actions/contacts';
+import {useDispatch} from 'react-redux';
 const AddContact = ({navigation}) => {
+  const dispatch = useDispatch();
   const [firstName, setFirstName] = useState('');
   const [number, setNumber] = useState('');
   const [key, setKey] = useState('add');
@@ -18,6 +23,8 @@ const AddContact = ({navigation}) => {
   const [clor, setClor] = useState('#F8F8FF');
   const [bgColors, setBgColors] = useState('#F8F8FF');
   const [clors, setClors] = useState('#161616');
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     if (key === 'add') {
       setBgColor('#161616');
@@ -47,16 +54,20 @@ const AddContact = ({navigation}) => {
       displayName: `${firstName} `,
     };
 
-    Contacts.openContactForm(newPerson).then((contact) => {
+    Contacts.openContactForm(newPerson).then(async (contact) => {
       // contact has been saved
-      console.log(contact);
+      setLoading(true);
+      await dispatch(addContact({firstName, phone: number}));
+      setLoading(false);
+      Alert.alert('Contact Invited Successfully');
+      setKey('show');
     });
   };
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#161616" />
       <Appbar.Header style={styles.bgHeader}>
-        <Appbar.BackAction onPress={() => navigation.goBack()} />
+        {/* <Appbar.BackAction onPress={() => navigation.goBack()} /> */}
         <Appbar.Content
           titleStyle={{textAlign: 'center', marginRight: 40}}
           title="Network"
@@ -115,14 +126,18 @@ const AddContact = ({navigation}) => {
             </Button>
 
             <View style={styles.btnOnly}>
-              <Button
-                onPress={handleAddContact}
-                style={styles.btn}
-                mode="contained"
-                labelStyle={styles.btnTxt}
-                contentStyle={styles.innerBtn}>
-                Submit
-              </Button>
+              {loading ? (
+                <ActivityIndicator size="large" color="#fff" />
+              ) : (
+                <Button
+                  onPress={handleAddContact}
+                  style={styles.btn}
+                  mode="contained"
+                  labelStyle={styles.btnTxt}
+                  contentStyle={styles.innerBtn}>
+                  Submit
+                </Button>
+              )}
             </View>
           </View>
         ) : (
@@ -133,12 +148,12 @@ const AddContact = ({navigation}) => {
   );
 };
 const styles = StyleSheet.create({
-  txtOr:{
-    fontSize:16,
-    fontWeight:'500',
-    textAlign:'center',
-    color:'#F8F8FF',
-    marginVertical:10
+  txtOr: {
+    fontSize: 16,
+    fontWeight: '500',
+    textAlign: 'center',
+    color: '#F8F8FF',
+    marginVertical: 10,
   },
   container: {
     flex: 1,

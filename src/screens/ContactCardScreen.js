@@ -7,46 +7,60 @@ import {
   StatusBar,
   Text,
   ScrollView,
+  Alert,
+  ActivityIndicator,
 } from 'react-native';
 import Contacts from 'react-native-contacts';
 import {Appbar, Button} from 'react-native-paper';
-const ContactCardScreen = ({navigation}) => {
+import {registerUser, setUser} from '../redux/actions/auth';
+import {useDispatch} from 'react-redux';
+import {getContacts} from '../redux/actions/contacts';
+
+const ContactCardScreen = (props) => {
+  const {navigation} = props;
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [day, setDay] = useState(0);
+  const [year, setYear] = useState(0);
   const [month, setMonth] = useState(0);
   const [location, setLocation] = useState('');
-  const handleAddContact = () => {
-    console.log('sss', day);
-    var newPerson = {
-      emailAddresses: [
-        {
-          label: 'work',
-          email: email,
-        },
-      ],
-      displayName: `${firstName} ${lastName}`,
-      birthday: {month: month, day: day},
+  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+  const handleAddContact = async () => {
+    // const phone = '+923462440717';
+    setLoading(true);
+    const {phone} = props.route.params;
+
+    var data = {
+      phone,
+      email,
+      firstName,
+      lastName,
+      dayOfBirth: day,
+      monthOfBirth: month,
+      location,
+      yearOfBirth: year,
     };
 
-    Contacts.openContactForm(newPerson)
-      .then((contact) => {
-        // contact has been saved
-        console.log(contact);
-      })
-      .then(() => {
-        navigation.navigate('bottom',{routeName:'Home'});
-      });
+    const response = await registerUser(data);
+    if (response.status == 400) Alert.alert(response.data.data);
+    else {
+      dispatch(setUser(response.data));
+      dispatch(getContacts());
+
+      navigation.navigate('bottom', {routeName: 'Home'});
+    }
+    setLoading(false);
   };
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#161616" />
       <Appbar.Header style={styles.bgHeader}>
-        <Appbar.BackAction onPress={() => navigation.goBack()} />
+        {/* <Appbar.BackAction onPress={() => navigation.goBack()} /> */}
         <Appbar.Content
           titleStyle={{textAlign: 'center', marginRight: 40}}
-          title="Contact Card"
+          title="Register Account"
         />
       </Appbar.Header>
       <ScrollView>
@@ -88,15 +102,22 @@ const ContactCardScreen = ({navigation}) => {
                 placeholderTextColor="#161616"
                 selectionColor="#161616"
                 style={styles.inputStyles}
-                placeholder="D-"
+                placeholder="Day"
                 onChangeText={(text) => setDay(text)}
               />
               <TextInput
                 placeholderTextColor="#161616"
                 selectionColor="#161616"
-                style={styles.inputStyle}
-                placeholder="M-"
+                style={[styles.inputStyle, {marginRight: 15}]}
+                placeholder="Month"
                 onChangeText={(text) => setMonth(text)}
+              />
+              <TextInput
+                placeholderTextColor="#161616"
+                selectionColor="#161616"
+                style={styles.inputStyle}
+                placeholder="Year"
+                onChangeText={(text) => setYear(text)}
               />
             </View>
           </View>
@@ -113,14 +134,18 @@ const ContactCardScreen = ({navigation}) => {
         </View>
       </ScrollView>
       <View style={styles.btnOnly}>
-        <Button
-          onPress={handleAddContact}
-          style={styles.btn}
-          mode="contained"
-          labelStyle={styles.btnTxt}
-          contentStyle={styles.innerBtn}>
-          Continue
-        </Button>
+        {loading ? (
+          <ActivityIndicator size="large" color="#fff" />
+        ) : (
+          <Button
+            onPress={handleAddContact}
+            style={styles.btn}
+            mode="contained"
+            labelStyle={styles.btnTxt}
+            contentStyle={styles.innerBtn}>
+            Continue
+          </Button>
+        )}
       </View>
     </SafeAreaView>
   );

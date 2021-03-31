@@ -1,29 +1,29 @@
 import React, {useEffect, useState} from 'react';
 import {SafeAreaView, StatusBar, Text, Image, StyleSheet} from 'react-native';
 import images from '../api/images';
-
+import {meUser, setUser} from '../redux/actions/auth';
+import {getContacts} from '../redux/actions/contacts';
+import {useDispatch} from 'react-redux';
 const SplashScreen = ({navigation}) => {
-  const [user, setUser] = useState('');
-  performTimeConsumingTask = async () => {
-    return new Promise((resolve) =>
-      setTimeout(() => {
-        resolve('result');
-      }, 2000),
-    );
-  };
+  const dispatch = useDispatch();
 
-
-  async function fetchMyAPI() {
-    const data = await this.performTimeConsumingTask();
-    navigation.navigate('number')
+  async function checkIfLoggedIn() {
+    const result = await meUser();
+    if (result.status !== 200) navigation.navigate('number');
+    else {
+      console.log(result);
+      dispatch(setUser({user: result.data}));
+      dispatch(getContacts());
+      navigation.navigate('bottom', {routeName: 'Home'});
+    }
   }
   useEffect(() => {
-    fetchMyAPI();
+    checkIfLoggedIn();
   }, []);
 
   return (
     <SafeAreaView style={styles.container}>
-            <StatusBar barStyle="light-content" backgroundColor="#161616" />
+      <StatusBar barStyle="light-content" backgroundColor="#161616" />
       <Image style={styles.tinyLogo} source={images.logo} />
     </SafeAreaView>
   );

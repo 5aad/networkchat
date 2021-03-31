@@ -1,8 +1,28 @@
 import React from 'react';
-import {SafeAreaView, StyleSheet, View, StatusBar, Image} from 'react-native';
+import {
+  SafeAreaView,
+  StyleSheet,
+  View,
+  StatusBar,
+  Image,
+  Alert,
+  Keyboard,
+} from 'react-native';
 import {Title, Appbar, Button, Paragraph} from 'react-native-paper';
 import CodePin from 'react-native-pin-code';
-const VerifiyScreen = ({navigation}) => {
+import {verifyPhone, setUser} from '../redux/actions/auth';
+import {useDispatch} from 'react-redux';
+import {getContacts} from '../redux/actions/contacts';
+
+const VerifiyScreen = (props) => {
+  const {navigation} = props;
+  const dispatch = useDispatch();
+  const {phone} = props.route.params;
+  const [response, setResponse] = React.useState(false);
+  const onSubmit = (code) => {
+    return verifyPhone(phone, code);
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#161616" />
@@ -22,38 +42,41 @@ const VerifiyScreen = ({navigation}) => {
             keyboardType="numeric"
             obfuscation={false}
             autoFocusFirst
-            checkPinCode={(code, callback) => callback(code === '12345')}
+            checkPinCode={async (code, callback) => {
+              const result = await onSubmit(code);
+              console.log(result);
+              if (result.status == 400) callback(false);
+              else {
+                setResponse(result.data);
+                callback(true);
+              }
+            }}
             number={4}
-            containerStyle={{height: 80, backgroundColor:'#161616',}}
-            textStyle={{marginTop: 0, backgroundColor:'#161616'}}
+            containerStyle={{height: 80, backgroundColor: '#161616'}}
+            textStyle={{marginTop: 0, backgroundColor: '#161616'}}
             containerPinStyle={{
               height: 60,
               marginTop: 0,
-              backgroundColor:'#161616',
-              paddingRight:40
+              backgroundColor: '#161616',
+              paddingRight: 40,
             }}
             pinStyle={{
-
               fontSize: 30,
               backgroundColor: '#161616',
               shadowOpacity: 0,
               borderBottomWidth: 1,
-              borderColor:'#F8F8FF',
+              borderColor: '#F8F8FF',
               color: '#F8F8FF',
             }}
-            success={() => console.log('hurray!')}
+            success={() => {
+              Keyboard.dismiss();
+              if (response.user) {
+                dispatch(setUser(response));
+                dispatch(getContacts());
+                navigation.navigate('bottom', {routeName: 'Home'});
+              } else navigation.navigate('welcome', phone);
+            }}
           />
-        </View>
-
-        <View style={styles.btnOnly}>
-          <Button
-            onPress={() => navigation.navigate('welcome')}
-            style={styles.btn}
-            mode="contained"
-            labelStyle={styles.btnTxt}
-            contentStyle={styles.innerBtn}>
-            Continue
-          </Button>
         </View>
       </View>
     </SafeAreaView>
@@ -97,8 +120,7 @@ const styles = StyleSheet.create({
   numbContainer: {
     flexDirection: 'row',
     marginTop: 45,
-    marginRight:50,
-   
+    marginRight: 50,
   },
   btnOnly: {
     justifyContent: 'flex-end',

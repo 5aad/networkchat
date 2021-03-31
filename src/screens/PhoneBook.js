@@ -13,7 +13,6 @@ const PhoneBook = ({navigation}) => {
         <Appbar.BackAction onPress={() => navigation.goBack()} />
       </Appbar.Header>
 
-     
       <View style={styles.lisContainer}>
         <ContactsList nav={navigation} />
       </View>
@@ -54,7 +53,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     backgroundColor: '#F8F8FF',
     paddingHorizontal: 10,
-    marginHorizontal:20
+    marginHorizontal: 20,
   },
   inputStyle: {
     height: 55,
@@ -62,7 +61,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '500',
     color: '#161616',
-    backgroundColor:'#F8F8FF',
+    backgroundColor: '#F8F8FF',
     flexGrow: 1,
   },
 });
