@@ -8,7 +8,7 @@ const images = {
   avatar3: require(`${IMG_PATH}avatar3.png`),
   avatar4: require(`${IMG_PATH}avatar4.png`),
   avatar5: require(`${IMG_PATH}avatar5.png`),
-  robot: require(`${ILLUS_PATH}robot.png`),
+  robot: require(`${ILLUS_PATH}robot1.png`),
   wel1: require(`${ILLUS_PATH}wel1.png`),
   wel2: require(`${ILLUS_PATH}wel2.png`),
   call: require(`${ICON_PATH}Call.png`),
@@ -26,5 +26,6 @@ const images = {
   messagebg: require(`${ICON_PATH}messagebg.png`),
   callbg: require(`${ICON_PATH}callbg.png`),
   video: require(`${ICON_PATH}video.png`),
+  bell: require(`${ICON_PATH}bell.png`),
 };
 export default images;

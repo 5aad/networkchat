@@ -66,14 +66,12 @@ const NetworkProfile = ({navigation}) => {
       <StatusBar barStyle="light-content" backgroundColor="#161616" />
       <Appbar.Header style={styles.bgHeader}>
         <Appbar.BackAction onPress={() => navigation.goBack()} />
-        <Appbar.Content
-          titleStyle={{textAlign: 'center', width: '180%'}}
-          title="Network Profile"
-        />
-        <Appbar.Content
-          titleStyle={{alignItems: 'flex-end', marginLeft: '70%'}}
-          title="Edit"
-        />
+          <Appbar.Action
+            style={{width: 15, marginLeft: '63%'}}
+            icon="bell-outline"
+            onPress={() => console.log()}
+          />
+          <Appbar.Content title="Edit" />
       </Appbar.Header>
 
       <View style={styles.innerContainer}>
@@ -105,6 +103,14 @@ const NetworkProfile = ({navigation}) => {
             <Image style={styles.imgIcon} source={images.call} />
             <Paragraph style={styles.txtPara}>897-654-3434</Paragraph>
           </View>
+          <Button
+          onPress={() => navigation.navigate('Account')}
+            style={styles.btn}
+            mode="contained"
+            labelStyle={styles.btnTxt}
+            contentStyle={styles.innerBtn}>
+            Settings
+          </Button>
         </View>
       </View>
     </SafeAreaView>
@@ -120,6 +126,7 @@ const styles = StyleSheet.create({
   },
   bgHeader: {
     backgroundColor: '#161616',
+
   },
   txtName: {
     fontSize: 22,
@@ -147,6 +154,19 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 10,
     right: -20,
+  },
+  btn: {
+    borderRadius: 12,
+    backgroundColor: '#F8F8FF',
+    marginVertical:20
+  },
+  btnTxt: {
+    fontWeight: '600',
+    fontSize: 18,
+    color: '#000',
+  },
+  innerBtn: {
+    height: 50,
   },
 });
 export default NetworkProfile;

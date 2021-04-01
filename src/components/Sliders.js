@@ -13,24 +13,26 @@ const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   slide: {
-    height: 350,
+    height: 600,
     width: windowWidth,
     justifyContent: 'center',
     alignItems: 'center',
   },
   slideImage: {width: 255, height: 254},
-  slideTxt: {fontSize: 19, fontWeight: '500', color: '#F8F8FF'},
+  slideTxt: {fontSize: 24, fontWeight: '500', color: '#F8F8FF', marginVertical:40, textAlign:'center', marginHorizontal:20},
 
   pagination: {
     width: '100%',
     justifyContent: 'center',
     flexDirection: 'row',
+    marginBottom:20,
+    marginTop:40
   },
   paginationDot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    marginHorizontal: 2,
+    width: 13,
+    height: 13,
+    borderRadius: 10,
+    marginHorizontal: 4,
   },
   paginationDotActive: {backgroundColor: 'lightblue'},
   paginationDotInactive: {backgroundColor: 'gray'},
@@ -38,7 +40,7 @@ const styles = StyleSheet.create({
   carousel: {flex: 1},
   btnContainer: {
     justifyContent: 'flex-start',
-    height: 300,
+    height: 200,
   },
   btn: {
     borderRadius: 12,
@@ -55,7 +57,7 @@ const styles = StyleSheet.create({
     height: 50,
   },
   btnOnly: {
-    height: '80%',
+    height: '50%',
     justifyContent: 'flex-end',
   },
 });
@@ -64,14 +66,14 @@ const slideList = [
   {
     id: 1,
     image: images.wel1,
-    title: 'Network is the social app',
-    subtitle: 'we wish existed ✨',
+    title: 'Network is the social app we wish existed ✨',
+    subtitle: '',
   },
   {
     id: 2,
     image: images.wel2,
-    title: 'Privacy?',
-    subtitle: 'It’s 2021... we got you 🔒',
+    title: 'Privacy? \n It’s 2021... we got you 🔒 \n \nWe’ll never sell your personal data, and we encrypt all of your messages.',
+    subtitle: '',
   },
 ];
 const Slide = memo(function Slide({data}) {

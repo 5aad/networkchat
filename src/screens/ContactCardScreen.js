@@ -57,14 +57,19 @@ const ContactCardScreen = (props) => {
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#161616" />
       <Appbar.Header style={styles.bgHeader}>
-        {/* <Appbar.BackAction onPress={() => navigation.goBack()} /> */}
+        <Appbar.BackAction onPress={() => navigation.goBack()} />
         <Appbar.Content
-          titleStyle={{textAlign: 'center', marginRight: 40}}
-          title="Register Account"
+          titleStyle={{textAlign: 'center', marginRight:40}}
+          title="Contact Card"
         />
       </Appbar.Header>
       <ScrollView>
         <View style={styles.innerContainer}>
+          <Text style={styles.infoLbl}>
+            This information will be displayed on your personal Contact Card.
+            Anyone who has connected with you on Network can view this
+            information. (that’s why we don’t ask for much)
+          </Text>
           <View style={{marginTop: 10}}>
             <Text style={styles.lbl}>First Name</Text>
             <TextInput
@@ -86,7 +91,28 @@ const ContactCardScreen = (props) => {
           </View>
 
           <View style={{marginTop: 15}}>
-            <Text style={styles.lbl}>Email</Text>
+            <Text style={styles.lbl}>Date of Birth</Text>
+            <View style={{flexDirection: 'row'}}>
+              <TextInput
+                placeholderTextColor="#161616"
+                selectionColor="#161616"
+                style={styles.inputStyles}
+                placeholder="D-"
+                onChangeText={(text) => setDay(text)}
+              />
+              <TextInput
+                placeholderTextColor="#161616"
+                selectionColor="#161616"
+                style={[styles.inputStyle, {marginRight: 15}]}
+                placeholder="M-"
+                onChangeText={(text) => setMonth(text)}
+              />
+             
+            </View>
+          </View>
+
+          <View style={{marginTop: 15}}>
+            <Text style={styles.lbl}>Email (optional)</Text>
             <TextInput
               placeholderTextColor="#161616"
               selectionColor="#161616"
@@ -95,35 +121,10 @@ const ContactCardScreen = (props) => {
             />
           </View>
 
-          <View style={{marginTop: 15}}>
-            <Text style={styles.lbl}>Date of Birth</Text>
-            <View style={{flexDirection: 'row'}}>
-              <TextInput
-                placeholderTextColor="#161616"
-                selectionColor="#161616"
-                style={styles.inputStyles}
-                placeholder="Day"
-                onChangeText={(text) => setDay(text)}
-              />
-              <TextInput
-                placeholderTextColor="#161616"
-                selectionColor="#161616"
-                style={[styles.inputStyle, {marginRight: 15}]}
-                placeholder="Month"
-                onChangeText={(text) => setMonth(text)}
-              />
-              <TextInput
-                placeholderTextColor="#161616"
-                selectionColor="#161616"
-                style={styles.inputStyle}
-                placeholder="Year"
-                onChangeText={(text) => setYear(text)}
-              />
-            </View>
-          </View>
+
 
           <View style={{marginTop: 15}}>
-            <Text style={styles.lbl}>Location</Text>
+            <Text style={styles.lbl}>Location (optional)</Text>
             <TextInput
               placeholderTextColor="#161616"
               selectionColor="#161616"
@@ -131,6 +132,10 @@ const ContactCardScreen = (props) => {
               onChangeText={(text) => setLocation(text)}
             />
           </View>
+          <Text style={styles.infoLbl}>
+            We’ll only ever reveal what city you’re in, and never your specific
+            location!
+          </Text>
         </View>
       </ScrollView>
       <View style={styles.btnOnly}>
@@ -195,6 +200,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F8F8FF',
     flexGrow: 1,
     marginRight: 15,
+    paddingHorizontal:10
   },
   inputStyle: {
     height: 55,
@@ -221,6 +227,12 @@ const styles = StyleSheet.create({
     color: '#F8F8FF',
     marginBottom: 10,
     marginLeft: 5,
+  },
+  infoLbl: {
+    textAlign: 'center',
+    fontSize: 16,
+    color: '#fff',
+    marginVertical:10
   },
 });
 export default ContactCardScreen;

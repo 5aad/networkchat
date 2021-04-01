@@ -19,7 +19,7 @@ const SplashScreen = ({navigation}) => {
       </Appbar.Header>
       <View style={styles.innerContainer}>
         <Image style={styles.imgRobot} source={images.robot} />
-        <Paragraph style={styles.txtPara}>
+        <Paragraph style={styles.txtParas}>
           To use Network, you must be added to the Network by someone you know.
         </Paragraph>
         <Text style={styles.txtPara}>Don’t have any friends?</Text>
@@ -37,16 +37,28 @@ const styles = StyleSheet.create({
   },
   innerContainer: {
     paddingHorizontal: 30,
+    alignItems:'center'
   },
   imgRobot: {
-    width: 362,
-    height: 269,
+    width: 117,
+    height: 154,
+    marginVertical:20
+  },
+  txtParas: {
+    fontSize: 20,
+    fontWeight: '500',
+    color: '#F9F9F9',
+    marginTop: 15,
+    textAlign:'center',
+    marginVertical:20
   },
   txtPara: {
     fontSize: 20,
     fontWeight: '500',
     color: '#F9F9F9',
     marginTop: 15,
+    textAlign:'center',
+
   },
   txtContact: {
     fontSize: 22,

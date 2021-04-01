@@ -15,34 +15,22 @@ import {getInitials} from '../redux/actions/auth';
 const Data = [
   {
     id: '1',
-    name: 'Profile',
-  },
-  {
-    id: '2',
     name: 'Privacy',
   },
   {
-    id: '3',
-    name: 'Settings',
-  },
-  {
-    id: '4',
-    name: 'Notifications',
-  },
-  {
-    id: '5',
+    id: '2',
     name: 'Network Data',
   },
   {
-    id: '6',
+    id: '3',
     name: 'Help and Support',
   },
   {
-    id: '7',
+    id: '4',
     name: 'Terms and Conditions',
   },
   {
-    id: '8',
+    id: '5',
     name: 'Logout',
   },
 ];
@@ -53,11 +41,17 @@ const AccountScreen = ({navigation}) => {
       <StatusBar barStyle="light-content" backgroundColor="#161616" />
       <Appbar.Header style={styles.bgHeader}>
         <Appbar.BackAction onPress={() => navigation.goBack()} />
+        <Appbar.Content title="Settings" titleStyle={{textAlign:'center', marginRight:20}} />
+        <Appbar.Action
+            style={{width: 15, marginRight:20 }}
+            icon="bell-outline"
+            onPress={() => console.log()}
+          />
       </Appbar.Header>
 
       <View style={styles.innerContainer}>
         <View style={{justifyContent: 'center', alignItems: 'center'}}>
-          {user.image ? (
+          {/* {user.image ? (
             <Image style={styles.imgAvatar} source={images.avatar1} />
           ) : (
             <View
@@ -80,7 +74,7 @@ const AccountScreen = ({navigation}) => {
             </View>
           )}
 
-          <Title style={styles.txtName}>{user.fullName}</Title>
+          <Title style={styles.txtName}>{user.fullName}</Title> */}
         </View>
       </View>
       <View style={styles.lisContainer}>

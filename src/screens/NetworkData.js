@@ -18,8 +18,13 @@ const NetworkData = ({navigation}) => {
       <Appbar.Header style={styles.bgHeader}>
         <Appbar.BackAction onPress={() => navigation.goBack()} />
         <Appbar.Content
-          titleStyle={{textAlign: 'center', marginRight: 40}}
+          titleStyle={{textAlign: 'center', marginRight: 20}}
           title="Network Data"
+        />
+        <Appbar.Action
+          style={{width: 15, marginRight: 20}}
+          icon="bell-outline"
+          onPress={() => console.log()}
         />
       </Appbar.Header>
       <ScrollView>
@@ -46,35 +51,66 @@ const NetworkData = ({navigation}) => {
           <Text style={styles.lbl}>Who you are most engaged with </Text>
 
           <View style={styles.flexRows}>
-            <View style={styles.flexCol}>
-              <Image style={styles.imgAvatar} source={images.avatar1} />
-              <Text style={styles.txtName}>Jacky</Text>
-            </View>
-            <View style={styles.flexCol}>
-              <Image style={styles.imgAvatar} source={images.avatar1} />
-              <Text style={styles.txtName}>Stive</Text>
-            </View>
-            <View style={styles.flexCol}>
-              <Image style={styles.imgAvatar} source={images.avatar1} />
-              <Text style={styles.txtName}>Smith</Text>
-            </View>
+            <ScrollView horizontal>
+              <View style={styles.flexCol}>
+                <Image style={styles.imgAvatar} source={images.avatar1} />
+                <Text style={styles.txtName}>Jacky</Text>
+              </View>
+              <View style={styles.flexCol}>
+                <Image style={styles.imgAvatar} source={images.avatar1} />
+                <Text style={styles.txtName}>Stive</Text>
+              </View>
+              <View style={styles.flexCol}>
+                <Image style={styles.imgAvatar} source={images.avatar1} />
+                <Text style={styles.txtName}>Smith</Text>
+              </View>
+              <View style={styles.flexCol}>
+                <Image style={styles.imgAvatar} source={images.avatar1} />
+                <Text style={styles.txtName}>Smith</Text>
+              </View>
+            </ScrollView>
           </View>
 
-          <Text style={styles.lbl}>Locations with the most connections </Text>
+          <Text style={styles.lbl}>Who you are least engaged with </Text>
+
+          <View style={styles.flexRows}>
+            <ScrollView horizontal>
+              <View style={styles.flexCol}>
+                <Image style={styles.imgAvatar} source={images.avatar1} />
+                <Text style={styles.txtName}>Jacky</Text>
+              </View>
+              <View style={styles.flexCol}>
+                <Image style={styles.imgAvatar} source={images.avatar1} />
+                <Text style={styles.txtName}>Stive</Text>
+              </View>
+              <View style={styles.flexCol}>
+                <Image style={styles.imgAvatar} source={images.avatar1} />
+                <Text style={styles.txtName}>Smith</Text>
+              </View>
+              <View style={styles.flexCol}>
+                <Image style={styles.imgAvatar} source={images.avatar1} />
+                <Text style={styles.txtName}>Smith</Text>
+              </View>
+            </ScrollView>
+          </View>
+
+          <Text style={styles.lbl}>Where your connections are located</Text>
 
           <View style={styles.flexRow}>
-            <View style={styles.flexCol}>
-              <Text style={styles.lbl}>New York</Text>
-              <Text style={styles.lbl}>34</Text>
-            </View>
-            <Image style={styles.imgIcon} source={images.newyork} />
+            <Text style={styles.lbl}>New York</Text>
+            <Text style={styles.lbl}>34</Text>
           </View>
           <View style={styles.flexRow}>
-            <View style={styles.flexCol}>
-              <Text style={styles.lbl}>Paris</Text>
-              <Text style={styles.lbl}>27</Text>
-            </View>
-            <Image style={styles.imgIcon} source={images.paris} />
+            <Text style={styles.lbl}>Paris</Text>
+            <Text style={styles.lbl}>34</Text>
+          </View>
+          <View style={styles.flexRow}>
+            <Text style={styles.lbl}>London</Text>
+            <Text style={styles.lbl}>34</Text>
+          </View>
+          <View style={styles.flexRow}>
+            <Text style={styles.lbl}>Tokyo</Text>
+            <Text style={styles.lbl}>34</Text>
           </View>
         </View>
       </ScrollView>
@@ -88,6 +124,7 @@ const styles = StyleSheet.create({
   },
   innerContainer: {
     paddingHorizontal: 30,
+    marginBottom:20
   },
   bgHeader: {
     backgroundColor: '#161616',
@@ -118,7 +155,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     marginRight: 10,
-    width:100
+    width: 100,
   },
   flexRows: {
     flexDirection: 'row',
@@ -129,8 +166,7 @@ const styles = StyleSheet.create({
   flexRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 15,
-    justifyContent: 'center',
+    justifyContent: 'space-between',
   },
   inputStyle: {
     height: 55,
