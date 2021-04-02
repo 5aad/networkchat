@@ -51,7 +51,7 @@ const AccountScreen = ({navigation}) => {
 
       <View style={styles.innerContainer}>
         <View style={{justifyContent: 'center', alignItems: 'center'}}>
-          {/* {user.image ? (
+          {user.image ? (
             <Image style={styles.imgAvatar} source={images.avatar1} />
           ) : (
             <View
@@ -74,7 +74,7 @@ const AccountScreen = ({navigation}) => {
             </View>
           )}
 
-          <Title style={styles.txtName}>{user.fullName}</Title> */}
+          <Title style={styles.txtName}>{user.fullName}</Title>
         </View>
       </View>
       <View style={styles.lisContainer}>

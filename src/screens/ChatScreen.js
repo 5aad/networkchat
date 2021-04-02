@@ -40,6 +40,8 @@ const ChatScreen = ({navigation}) => {
         <View style={styles.chatContainer}>
           <MessageBubble text="Hello Syed! What’s up ? Are you in to  available to connects with the world one of largest adbanching amazing connector ? Hello Syed! What’s up ? Are you in to  available to connects with the world one of largest" />
           <MessageBubble mine text="Hello Juin ! What’s up ? Are you in to  available to connects with the world one of largest" />
+          <MessageBubble mine image={images.wel1} />
+          <MessageBubble  image={images.wel2} />
         </View>
       </ScrollView>
 

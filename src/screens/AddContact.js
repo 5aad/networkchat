@@ -9,7 +9,7 @@ import {
   ActivityIndicator,
   Alert,
 } from 'react-native';
-import {Title, Appbar, Button} from 'react-native-paper';
+import {Title, Appbar, Button, Divider} from 'react-native-paper';
 import ShowContact from '../components/ShowContact';
 import Contacts from 'react-native-contacts';
 import {addContact} from '../redux/actions/contacts';
@@ -75,74 +75,25 @@ const AddContact = ({navigation}) => {
       </Appbar.Header>
 
       <View style={styles.innerContainer}>
-        <View style={styles.tabBtn}>
-          <Title
-            onPress={() => setKey('add')}
-            style={[
-              styles.tabBtnBlank,
-              {backgroundColor: `${bgColor}`, color: `${clor}`},
-            ]}>
-            Add Contact
-          </Title>
-          <Title
-            onPress={() => setKey('show')}
-            style={[
-              styles.tabBtnBlank,
-              {backgroundColor: `${bgColors}`, color: `${clors}`},
-            ]}>
-            Show Contact
-          </Title>
-        </View>
-
-        {key === 'add' ? (
-          <View>
-            <View style={{marginTop: 10}}>
-              <Text style={styles.lbl}>First Name</Text>
-              <TextInput
-                placeholderTextColor="#161616"
-                selectionColor="#161616"
-                style={styles.inputStyle}
-                onChangeText={(text) => setFirstName(text)}
-              />
-            </View>
-
-            <View style={{marginTop: 15}}>
-              <Text style={styles.lbl}>Phone Number</Text>
-              <TextInput
-                placeholderTextColor="#161616"
-                selectionColor="#161616"
-                style={styles.inputStyle}
-                onChangeText={(text) => setNumber(text)}
-              />
-            </View>
-            <Title style={styles.txtOr}>OR</Title>
-            <Button
-              onPress={() => navigation.navigate('pbook', {routeName: 'Home'})}
-              style={styles.btn}
-              mode="contained"
-              labelStyle={styles.btnTxt}
-              contentStyle={styles.innerBtn}>
-              Add from Contacts
-            </Button>
-
-            <View style={styles.btnOnly}>
-              {loading ? (
-                <ActivityIndicator size="large" color="#fff" />
-              ) : (
-                <Button
-                  onPress={handleAddContact}
-                  style={styles.btn}
-                  mode="contained"
-                  labelStyle={styles.btnTxt}
-                  contentStyle={styles.innerBtn}>
-                  Submit
-                </Button>
-              )}
-            </View>
-          </View>
-        ) : (
-          <ShowContact nav={navigation} />
-        )}
+        <ShowContact nav={navigation} />
+        <Divider style={{borderWidth: 0.5, borderColor: '#fff'}} />
+        <Text style={styles.txtOr}>Don’t see who you’re looking for?</Text>
+        <Button
+          style={styles.btn}
+          mode="contained"
+          labelStyle={styles.btnTxt}
+          contentStyle={styles.innerBtn}>
+          Invite
+        </Button>
+        <Title style={styles.txtOr}>OR</Title>
+        <Button
+          onPress={() => navigation.navigate('pbook', {routeName: 'Home'})}
+          style={styles.btn}
+          mode="contained"
+          labelStyle={styles.btnTxt}
+          contentStyle={styles.innerBtn}>
+          Add from Contacts
+        </Button>
       </View>
     </SafeAreaView>
   );
@@ -223,34 +174,6 @@ const styles = StyleSheet.create({
     color: '#F8F8FF',
     marginBottom: 10,
     marginLeft: 5,
-  },
-  tabBtn: {
-    backgroundColor: '#F8F8FF',
-    borderRadius: 12,
-    height: 59,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingHorizontal: 5,
-    alignItems: 'center',
-    marginVertical: 20,
-  },
-  tabBtnLbl: {
-    fontSize: 20,
-    fontWeight: '600',
-    backgroundColor: '#161616',
-    color: '#F8F8FF',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 18,
-  },
-  tabBtnBlank: {
-    fontSize: 20,
-    fontWeight: '600',
-    backgroundColor: '#F8F8FF',
-    color: '#161616',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 18,
   },
 });
 export default AddContact;

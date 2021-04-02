@@ -8,6 +8,9 @@ const images = {
   avatar3: require(`${IMG_PATH}avatar3.png`),
   avatar4: require(`${IMG_PATH}avatar4.png`),
   avatar5: require(`${IMG_PATH}avatar5.png`),
+  n1: require(`${IMG_PATH}n1.png`),
+  n2: require(`${IMG_PATH}n2.png`),
+  n3: require(`${IMG_PATH}n3.png`),
   robot: require(`${ILLUS_PATH}robot1.png`),
   wel1: require(`${ILLUS_PATH}wel1.png`),
   wel2: require(`${ILLUS_PATH}wel2.png`),
@@ -27,5 +30,9 @@ const images = {
   callbg: require(`${ICON_PATH}callbg.png`),
   video: require(`${ICON_PATH}video.png`),
   bell: require(`${ICON_PATH}bell.png`),
+  download: require(`${ICON_PATH}download.png`),
+  photto: require(`${ICON_PATH}photto.png`),
+  add: require(`${ICON_PATH}add.png`),
+  new: require(`${ICON_PATH}new.png`),
 };
 export default images;
