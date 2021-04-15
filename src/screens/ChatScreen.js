@@ -1,17 +1,186 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
   StatusBar,
+  PermissionsAndroid,
+  Platform,
   View,
   Image,
   TextInput,
   ScrollView,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import {Appbar} from 'react-native-paper';
 import images from '../api/images';
 import MessageBubble from '../components/MessageBubble';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import AudioRecorderPlayer from 'react-native-audio-recorder-player';
+const audioRecorderPlayer = new AudioRecorderPlayer();
 const ChatScreen = ({navigation}) => {
+  const [fileData, setFileData] = useState('');
+  const [fileUri, setFileUri] = useState('');
+  const requestCameraPermission = async () => {
+    if (Platform.OS === 'android') {
+      try {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.CAMERA,
+          {
+            title: 'Camera Permission',
+            message: 'App needs camera permission',
+          },
+        );
+        // If CAMERA Permission is granted
+        return granted === PermissionsAndroid.RESULTS.GRANTED;
+      } catch (err) {
+        console.warn(err);
+        return false;
+      }
+    } else return true;
+  };
+
+  const requestExternalWritePermission = async () => {
+    if (Platform.OS === 'android') {
+      try {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+          {
+            title: 'External Storage Write Permission',
+            message: 'App needs write permission',
+          },
+        );
+        // If WRITE_EXTERNAL_STORAGE Permission is granted
+        return granted === PermissionsAndroid.RESULTS.GRANTED;
+      } catch (err) {
+        console.warn(err);
+        alert('Write permission err', err);
+      }
+      return false;
+    } else return true;
+  };
+  const launchCameras = async () => {
+    let options = {
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
+    let isCameraPermitted = await requestCameraPermission();
+    let isStoragePermitted = await requestExternalWritePermission();
+    if (isCameraPermitted && isStoragePermitted) {
+      launchCamera(options, (response) => {
+        console.log('Response = ', response);
+
+        if (response.didCancel) {
+          console.log('User cancelled image picker');
+        } else if (response.error) {
+          console.log('ImagePicker Error: ', response.error);
+        } else if (response.customButton) {
+          console.log('User tapped custom button: ', response.customButton);
+          alert(response.customButton);
+        } else {
+          const source = {uri: response.uri};
+          console.log('response', JSON.stringify(response));
+          setFileData(response.data);
+          setFileUri(response.uri);
+        }
+      });
+    }
+  };
+
+  const launchImageLibrarys = async () => {
+    let options = {
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
+    let isCameraPermitted = await requestCameraPermission();
+    let isStoragePermitted = await requestExternalWritePermission();
+    if (isCameraPermitted && isStoragePermitted) {
+      launchImageLibrary(options, (response) => {
+        console.log('Response = ', response);
+
+        if (response.didCancel) {
+          console.log('User cancelled image picker');
+        } else if (response.error) {
+          console.log('ImagePicker Error: ', response.error);
+        } else if (response.customButton) {
+          console.log('User tapped custom button: ', response.customButton);
+          alert(response.customButton);
+        } else {
+          const source = {uri: response.uri};
+          console.log('response', JSON.stringify(response));
+          setFileData(response.data);
+          setFileUri(response.uri);
+        }
+      });
+    }
+  };
+
+  const [micBtn, setMicBtn] = useState(false);
+  const onStartRecord = async () => {
+    if (Platform.OS === 'android') {
+      try {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+          {
+            title: 'Permissions for write access',
+            message: 'Give permission to your storage to write a file',
+            buttonPositive: 'ok',
+          },
+        );
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          console.log('You can use the storage');
+        } else {
+          console.log('permission denied');
+          return;
+        }
+      } catch (err) {
+        console.warn(err);
+        return;
+      }
+    }
+    if (Platform.OS === 'android') {
+      try {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
+          {
+            title: 'Permissions for write access',
+            message: 'Give permission to your storage to write a file',
+            buttonPositive: 'ok',
+          },
+        );
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          console.log('You can use the camera');
+        } else {
+          console.log('permission denied');
+          return;
+        }
+      } catch (err) {
+        console.warn(err);
+        return;
+      }
+    }
+    const path = Platform.select({
+      ios: 'hello.m4a',
+      android: 'sdcard/hello.mp4',
+    });
+
+    const uri = await audioRecorderPlayer.startRecorder(path);
+    audioRecorderPlayer.addRecordBackListener((e) => {
+      console.log(e.current_position);
+      console.log(audioRecorderPlayer.mmssss(Math.floor(e.current_position)));
+      setMicBtn(true)
+    });
+    console.log(`uri: ${uri}`);
+
+  };
+  const onStopRecord = async () => {
+    const audio = await audioRecorderPlayer.stopRecorder();
+    audioRecorderPlayer.removeRecordBackListener();
+    console.log(audio)
+  };
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#F8F8FF" />
@@ -39,10 +208,13 @@ const ChatScreen = ({navigation}) => {
       <ScrollView>
         <View style={styles.chatContainer}>
           <MessageBubble text="Hello Syed! What’s up ? Are you in to  available to connects with the world one of largest adbanching amazing connector ? Hello Syed! What’s up ? Are you in to  available to connects with the world one of largest" />
-          <MessageBubble mine text="Hello Juin ! What’s up ? Are you in to  available to connects with the world one of largest" />
+          <MessageBubble
+            mine
+            text="Hello Juin ! What’s up ? Are you in to  available to connects with the world one of largest"
+          />
           <MessageBubble mine image={images.wel1} />
-          <MessageBubble  image={images.wel2} />
-          <MessageBubble mine  audio />
+          <MessageBubble image={images.wel2} />
+          <MessageBubble mine audio />
         </View>
       </ScrollView>
 
@@ -53,10 +225,25 @@ const ChatScreen = ({navigation}) => {
           selectionColor="#161616"
           style={styles.inputStyle}
           keyboardAppearance="dark"
+          multiline
         />
-        <Image style={styles.iconCamera} source={images.camera} />
-        <Image style={styles.iconClip} source={images.clip} />
-        <Image style={styles.iconMic} source={images.mic} />
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <TouchableWithoutFeedback onPress={launchCameras}>
+            <Image style={styles.iconCamera} source={images.camera} />
+          </TouchableWithoutFeedback>
+          <TouchableWithoutFeedback onPress={launchImageLibrarys}>
+            <Image style={styles.iconClip} source={images.clip} />
+          </TouchableWithoutFeedback>
+          {micBtn === false ? (
+            <TouchableWithoutFeedback onPress={onStartRecord}>
+              <Image style={styles.iconMic} source={images.mic} />
+            </TouchableWithoutFeedback>
+          ) : (
+            <TouchableWithoutFeedback onPress={onStopRecord}>
+              <Image style={styles.iconMic} source={images.clip} />
+            </TouchableWithoutFeedback>
+          )}
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -88,6 +275,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     color: '#161616',
     flexGrow: 1,
+    width: 100,
   },
   inputContainer: {
     flexDirection: 'row',

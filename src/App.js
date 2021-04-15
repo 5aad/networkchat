@@ -21,7 +21,7 @@ const Stack = createStackNavigator();
 const App = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="chat">
+      <Stack.Navigator initialRouteName="Splash">
         <Stack.Screen
           options={{headerShown: false}}
           name="Splash"
