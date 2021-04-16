@@ -66,7 +66,7 @@ const NumberScreen = ({navigation}) => {
 
   const onSubmit = async () => {
     setLoading(true);
-    showNotification("hello","welcome")
+   
     if (!number) {
       Alert.alert('Please enter a number');
       return;
