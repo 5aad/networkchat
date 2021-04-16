@@ -26,7 +26,7 @@ import Contacts from 'react-native-contacts';
 import _ from 'lodash';
 import {registerPhone} from '../redux/actions/auth';
 import {useDispatch} from 'react-redux';
-import {showNotification} from '../components/notification.ios'
+import {showNotification} from '../components/notification.android'
 
 const NumberScreen = ({navigation}) => {
   useEffect(() => {
