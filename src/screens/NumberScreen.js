@@ -26,6 +26,7 @@ import Contacts from 'react-native-contacts';
 import _ from 'lodash';
 import {registerPhone} from '../redux/actions/auth';
 import {useDispatch} from 'react-redux';
+import {showNotification} from '../components/notification.ios'
 
 const NumberScreen = ({navigation}) => {
   useEffect(() => {
@@ -65,6 +66,7 @@ const NumberScreen = ({navigation}) => {
 
   const onSubmit = async () => {
     setLoading(true);
+    showNotification("hello","welcome")
     if (!number) {
       Alert.alert('Please enter a number');
       return;
@@ -150,7 +152,7 @@ const NumberScreen = ({navigation}) => {
             <ActivityIndicator size="large" color="#fff" />
           ) : (
             <Button
-              onPress={() => onSubmit()}
+              onPress={() =>  showNotification("hello","welcome")}
               style={styles.btn}
               mode="contained"
               labelStyle={styles.btnTxt}

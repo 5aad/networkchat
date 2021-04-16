@@ -39,7 +39,7 @@ PushNotification.configure({
   
     popInitialNotification: true,
 
-    requestPermissions: Platform.Os==='ios',
+    requestPermissions: Platform.OS=='ios',
   });
 
 AppRegistry.registerComponent(appName, () => App);
