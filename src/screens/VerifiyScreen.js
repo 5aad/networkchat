@@ -17,10 +17,10 @@ import {getContacts} from '../redux/actions/contacts';
 const VerifiyScreen = (props) => {
   const {navigation} = props;
   const dispatch = useDispatch();
-  const {phone} = props.route.params;
+  // const {phone} = props.route.params;
   const [response, setResponse] = React.useState(false);
   const onSubmit = (code) => {
-    return verifyPhone(phone, code);
+    return verifyPhone(code);
   };
 
   return (
@@ -74,9 +74,19 @@ const VerifiyScreen = (props) => {
                 dispatch(setUser(response));
                 dispatch(getContacts());
                 navigation.navigate('bottom', {routeName: 'Home'});
-              } else navigation.navigate('welcome', phone);
+              } else navigation.navigate('welcome');
             }}
           />
+        </View>
+        <View style={styles.btnOnly}>
+          <Button
+            onPress={() => navigation.navigate('welcome')}
+            style={styles.btn}
+            mode="contained"
+            labelStyle={styles.btnTxt}
+            contentStyle={styles.innerBtn}>
+            Continue
+          </Button>
         </View>
       </View>
     </SafeAreaView>

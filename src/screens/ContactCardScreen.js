@@ -143,7 +143,8 @@ const ContactCardScreen = (props) => {
           <ActivityIndicator size="large" color="#fff" />
         ) : (
           <Button
-            onPress={handleAddContact}
+            // onPress={handleAddContact}
+            onPress={() => navigation.navigate('bottom', {routeName: 'Home'})}
             style={styles.btn}
             mode="contained"
             labelStyle={styles.btnTxt}

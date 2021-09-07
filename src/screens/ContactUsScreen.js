@@ -11,6 +11,21 @@ import {Paragraph, Appbar} from 'react-native-paper';
 import images from '../api/images';
 
 const SplashScreen = ({navigation}) => {
+  const performTimeConsumingTask = async () => {
+    return new Promise((resolve) =>
+      setTimeout(() => {
+        resolve('result');
+      }, 2000),
+    );
+  };
+
+  async function fetchMyAPI() {
+    const data = await performTimeConsumingTask();
+    navigation.navigate('verify');
+  }
+  useEffect(() => {
+    fetchMyAPI();
+  }, []);
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#161616" />
@@ -37,28 +52,27 @@ const styles = StyleSheet.create({
   },
   innerContainer: {
     paddingHorizontal: 30,
-    alignItems:'center'
+    alignItems: 'center',
   },
   imgRobot: {
     width: 117,
     height: 154,
-    marginVertical:20
+    marginVertical: 20,
   },
   txtParas: {
     fontSize: 20,
     fontWeight: '500',
     color: '#F9F9F9',
     marginTop: 15,
-    textAlign:'center',
-    marginVertical:20
+    textAlign: 'center',
+    marginVertical: 20,
   },
   txtPara: {
     fontSize: 20,
     fontWeight: '500',
     color: '#F9F9F9',
     marginTop: 15,
-    textAlign:'center',
-
+    textAlign: 'center',
   },
   txtContact: {
     fontSize: 22,

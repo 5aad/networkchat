@@ -41,40 +41,41 @@ const AccountScreen = ({navigation}) => {
       <StatusBar barStyle="light-content" backgroundColor="#161616" />
       <Appbar.Header style={styles.bgHeader}>
         <Appbar.BackAction onPress={() => navigation.goBack()} />
-        <Appbar.Content title="Settings" titleStyle={{textAlign:'center', marginRight:20}} />
+        <Appbar.Content
+          title="Settings"
+          titleStyle={{textAlign: 'center', marginRight: 20}}
+        />
         <Appbar.Action
-            style={{width: 15, marginRight:20 }}
-            icon="bell-outline"
-            onPress={() => console.log()}
-          />
+          style={{width: 15, marginRight: 20}}
+          icon="bell-outline"
+          onPress={() => console.log()}
+        />
       </Appbar.Header>
 
       <View style={styles.innerContainer}>
         <View style={{justifyContent: 'center', alignItems: 'center'}}>
-          {user.image ? (
-            <Image style={styles.imgAvatar} source={images.avatar1} />
-          ) : (
-            <View
-              style={{
-                height: 102,
-                width: 102,
-                borderRadius: 12,
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <Text
-                style={{
-                  color: 'white',
-                  fontWeight: 'bold',
-                  fontSize: 50,
-                }}>
-                {getInitials(user.fullName)}
-              </Text>
-            </View>
-          )}
+          <Image style={styles.imgAvatar} source={images.avatar1} />
 
-          <Title style={styles.txtName}>{user.fullName}</Title>
+          {/* <View
+            style={{
+              height: 102,
+              width: 102,
+              borderRadius: 12,
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <Text
+              style={{
+                color: 'white',
+                fontWeight: 'bold',
+                fontSize: 50,
+              }}>
+              abc
+            </Text>
+          </View> */}
+
+          <Title style={styles.txtName}>abc</Title>
         </View>
       </View>
       <View style={styles.lisContainer}>

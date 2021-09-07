@@ -11,7 +11,7 @@ import {
   PermissionsAndroid,
   TouchableWithoutFeedback,
 } from 'react-native';
-import AudioRecorderPlayer from 'react-native-audio-recorder-player';
+// import AudioRecorderPlayer from 'react-native-audio-recorder-player';
 
 // Import react-native-svg
 // from 'https://github.com/react-native-community/react-native-svg'
@@ -28,10 +28,8 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 // 3. image (image file) => renders image inside bubble
 
 // Declare component
-const audioRecorderPlayer = new AudioRecorderPlayer();
+// const audioRecorderPlayer = new AudioRecorderPlayer();
 const MessageBubble = (props) => {
-
-
   async function perm() {
     if (Platform.OS === 'android') {
       try {
@@ -83,44 +81,44 @@ const MessageBubble = (props) => {
   const [audioBtn, setAudioBtn] = useState(false);
   const [duration, setDuration] = useState(0);
   const [positions, setPosition] = useState(0);
-  async function onStartPlay() {
-    console.log('onStartPlay');
-    // const path = Platform.select({
-    //   ios: 'hello.m4a',
-    //   android: '/sdcard/music/hello.mp3',
-    // });
-    const msg = await audioRecorderPlayer.startPlayer(
-      'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
-    );
-    audioRecorderPlayer.setVolume(1.0);
-    console.log(msg);
-    setAudioBtn(true);
-    audioRecorderPlayer.addPlayBackListener((e) => {
-      if (e.current_position === e.duration) {
-        console.log('finished');
-        audioRecorderPlayer.stopPlayer();
-        setAudioBtn(false);
-      }
-      // console.log('position' + e.current_position);
-      // console.log('duration ', e.duration);
-      setPosition(e.current_position);
-      setDuration(e.duration);
-      // console.log(
-      //   'Pos' + audioRecorderPlayer.mmssss(Math.floor(e.current_position)),
-      // );
-      // console.log('Dur' + audioRecorderPlayer.mmssss(Math.floor(e.duration)));
-    });
-  }
+  // async function onStartPlay() {
+  //   console.log('onStartPlay');
+  //   // const path = Platform.select({
+  //   //   ios: 'hello.m4a',
+  //   //   android: '/sdcard/music/hello.mp3',
+  //   // });
+  //   const msg = await audioRecorderPlayer.startPlayer(
+  //     'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
+  //   );
+  //   audioRecorderPlayer.setVolume(1.0);
+  //   console.log(msg);
+  //   setAudioBtn(true);
+  //   audioRecorderPlayer.addPlayBackListener((e) => {
+  //     if (e.current_position === e.duration) {
+  //       console.log('finished');
+  //       audioRecorderPlayer.stopPlayer();
+  //       setAudioBtn(false);
+  //     }
+  //     // console.log('position' + e.current_position);
+  //     // console.log('duration ', e.duration);
+  //     setPosition(e.current_position);
+  //     setDuration(e.duration);
+  //     // console.log(
+  //     //   'Pos' + audioRecorderPlayer.mmssss(Math.floor(e.current_position)),
+  //     // );
+  //     // console.log('Dur' + audioRecorderPlayer.mmssss(Math.floor(e.duration)));
+  //   });
+  // }
 
-  async function onPausePlay() {
-    await audioRecorderPlayer.pausePlayer();
-    setAudioBtn(false);
-  }
+  // async function onPausePlay() {
+  //   await audioRecorderPlayer.pausePlayer();
+  //   setAudioBtn(false);
+  // }
 
-  async function updatePosition(params) {
-    console.log(params)
-    await audioRecorderPlayer.seekToPlayer(params);
-  }
+  // async function updatePosition(params) {
+  //   console.log(params)
+  //   await audioRecorderPlayer.seekToPlayer(params);
+  // }
   return (
     <View style={[styles.message, props.mine ? styles.mine : styles.not_mine]}>
       <View
@@ -141,7 +139,7 @@ const MessageBubble = (props) => {
           <>
             <View style={{alignItems: 'center', flexDirection: 'row'}}>
               {audioBtn === false ? (
-                <TouchableWithoutFeedback onPress={onStartPlay}>
+                <TouchableWithoutFeedback onPress={null}>
                   <View
                     style={{
                       backgroundColor: '#2e2e2e',
@@ -161,7 +159,7 @@ const MessageBubble = (props) => {
                   </View>
                 </TouchableWithoutFeedback>
               ) : (
-                <TouchableWithoutFeedback onPress={onPausePlay}>
+                <TouchableWithoutFeedback onPress={null}>
                   <View
                     style={{
                       backgroundColor: '#2e2e2e',
@@ -181,14 +179,14 @@ const MessageBubble = (props) => {
                   </View>
                 </TouchableWithoutFeedback>
               )}
-              <Slider
+              {/* <Slider
                 minimumTrackTintColor="#73F909"
                 style={{width: 220}}
                 value={positions}
                 maximumValue={duration}
                 useNativeDriver={true}
                 onValueChange={(value) => updatePosition(value)}
-              />
+              /> */}
             </View>
           </>
         ) : null}

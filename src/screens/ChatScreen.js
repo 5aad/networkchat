@@ -11,11 +11,17 @@ import {
   ScrollView,
   TouchableWithoutFeedback,
 } from 'react-native';
-import {Appbar} from 'react-native-paper';
+import {Appbar, Title} from 'react-native-paper';
 import images from '../api/images';
 import MessageBubble from '../components/MessageBubble';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
-import AudioRecorderPlayer from 'react-native-audio-recorder-player';
+// import AudioRecorderPlayer, {
+//   AVEncoderAudioQualityIOSType,
+//   AVEncodingOption,
+//   AudioEncoderAndroidType,
+//   AudioSet,
+//   AudioSourceAndroidType,
+// } from 'react-native-audio-recorder-player';
 const audioRecorderPlayer = new AudioRecorderPlayer();
 const ChatScreen = ({navigation}) => {
   const [fileData, setFileData] = useState('');
@@ -119,68 +125,77 @@ const ChatScreen = ({navigation}) => {
   };
 
   const [micBtn, setMicBtn] = useState(false);
-  const onStartRecord = async () => {
-    if (Platform.OS === 'android') {
-      try {
-        const granted = await PermissionsAndroid.request(
-          PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-          {
-            title: 'Permissions for write access',
-            message: 'Give permission to your storage to write a file',
-            buttonPositive: 'ok',
-          },
-        );
-        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-          console.log('You can use the storage');
-        } else {
-          console.log('permission denied');
-          return;
-        }
-      } catch (err) {
-        console.warn(err);
-        return;
-      }
-    }
-    if (Platform.OS === 'android') {
-      try {
-        const granted = await PermissionsAndroid.request(
-          PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
-          {
-            title: 'Permissions for write access',
-            message: 'Give permission to your storage to write a file',
-            buttonPositive: 'ok',
-          },
-        );
-        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-          console.log('You can use the camera');
-        } else {
-          console.log('permission denied');
-          return;
-        }
-      } catch (err) {
-        console.warn(err);
-        return;
-      }
-    }
-    const path = Platform.select({
-      ios: 'hello.m4a',
-      android: 'sdcard/hello.mp4',
-    });
-
-    const uri = await audioRecorderPlayer.startRecorder(path);
-    audioRecorderPlayer.addRecordBackListener((e) => {
-      console.log(e.current_position);
-      console.log(audioRecorderPlayer.mmssss(Math.floor(e.current_position)));
-      setMicBtn(true)
-    });
-    console.log(`uri: ${uri}`);
-
-  };
-  const onStopRecord = async () => {
-    const audio = await audioRecorderPlayer.stopRecorder();
-    audioRecorderPlayer.removeRecordBackListener();
-    console.log(audio)
-  };
+  const [recordSecs, setRecordSecs] = useState(0);
+  const [recordTime, setRecordTime] = useState('00:00:00');
+  // const onStartRecord = async () => {
+  //   if (Platform.OS === 'android') {
+  //     try {
+  //       const granted = await PermissionsAndroid.request(
+  //         PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+  //         {
+  //           title: 'Permissions for write access',
+  //           message: 'Give permission to your storage to write a file',
+  //           buttonPositive: 'ok',
+  //         },
+  //       );
+  //       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+  //         console.log('You can use the storage');
+  //       } else {
+  //         console.log('permission denied');
+  //         return;
+  //       }
+  //     } catch (err) {
+  //       console.warn(err);
+  //       return;
+  //     }
+  //   }
+  //   if (Platform.OS === 'android') {
+  //     try {
+  //       const granted = await PermissionsAndroid.request(
+  //         PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
+  //         {
+  //           title: 'Permissions for write access',
+  //           message: 'Give permission to your storage to write a file',
+  //           buttonPositive: 'ok',
+  //         },
+  //       );
+  //       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+  //         console.log('You can use the camera');
+  //       } else {
+  //         console.log('permission denied');
+  //         return;
+  //       }
+  //     } catch (err) {
+  //       console.warn(err);
+  //       return;
+  //     }
+  //   }
+  //   const path = Platform.select({
+  //     ios: 'hello.m4a',
+  //     android: 'sdcard/hello.mp4',
+  //   });
+  //   const audioSet = {
+  //     AudioEncoderAndroid: AudioEncoderAndroidType.AAC,
+  //     AudioSourceAndroid: AudioSourceAndroidType.MIC,
+  //     AVEncoderAudioQualityKeyIOS: AVEncoderAudioQualityIOSType.high,
+  //     AVNumberOfChannelsKeyIOS: 2,
+  //     AVFormatIDKeyIOS: AVEncodingOption.aac,
+  //   };
+  //   console.log('audioSet', audioSet);
+  //   const uri = await audioRecorderPlayer.startRecorder(path, audioSet);
+  //   audioRecorderPlayer.addRecordBackListener((e) => {
+  //     setRecordSecs(e.current_position);
+  //     setRecordTime(audioRecorderPlayer.mmssss(Math.floor(e.current_position)));
+  //     setMicBtn(true);
+  //   });
+  //   console.log(`uri: ${uri}`);
+  // };
+  // const onStopRecord = async () => {
+  //   const audio = await audioRecorderPlayer.stopRecorder();
+  //   audioRecorderPlayer.removeRecordBackListener();
+  //   setRecordSecs(0)
+  //   console.log(audio);
+  // };
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#F8F8FF" />
@@ -219,14 +234,19 @@ const ChatScreen = ({navigation}) => {
       </ScrollView>
 
       <View style={styles.inputContainer}>
-        <TextInput
-          placeholder="Type here"
-          placeholderTextColor="#656565"
-          selectionColor="#161616"
-          style={styles.inputStyle}
-          keyboardAppearance="dark"
-          multiline
-        />
+        {micBtn ? (
+          <Title>{recordTime}</Title>
+        ) : (
+          <TextInput
+            placeholder="Type here"
+            placeholderTextColor="#656565"
+            selectionColor="#161616"
+            style={styles.inputStyle}
+            keyboardAppearance="dark"
+            multiline
+          />
+        )}
+
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <TouchableWithoutFeedback onPress={launchCameras}>
             <Image style={styles.iconCamera} source={images.camera} />
@@ -235,11 +255,11 @@ const ChatScreen = ({navigation}) => {
             <Image style={styles.iconClip} source={images.clip} />
           </TouchableWithoutFeedback>
           {micBtn === false ? (
-            <TouchableWithoutFeedback onPress={onStartRecord}>
+            <TouchableWithoutFeedback onPress={null}>
               <Image style={styles.iconMic} source={images.mic} />
             </TouchableWithoutFeedback>
           ) : (
-            <TouchableWithoutFeedback onPress={onStopRecord}>
+            <TouchableWithoutFeedback onPress={null}>
               <Image style={styles.iconMic} source={images.clip} />
             </TouchableWithoutFeedback>
           )}

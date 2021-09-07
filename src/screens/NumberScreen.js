@@ -152,7 +152,9 @@ const NumberScreen = ({navigation}) => {
             <ActivityIndicator size="large" color="#fff" />
           ) : (
             <Button
-              onPress={() =>  showNotification("hello","welcome")}
+              // onPress={() =>  showNotification("hello","welcome")}
+              onPress={() => navigation.navigate('contact')}
+              // onPress={() => onSubmit()}
               style={styles.btn}
               mode="contained"
               labelStyle={styles.btnTxt}
